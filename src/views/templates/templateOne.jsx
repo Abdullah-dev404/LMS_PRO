@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Editor } from 'primereact/editor';
+import '../templates/templateOne.css';
 function TemplateOne() {
   const [text, setText] = useState('');
 

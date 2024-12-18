@@ -8,6 +8,7 @@ import { BiCheckboxSquare } from 'react-icons/bi';
 import { CiText } from 'react-icons/ci';
 import { MdDelete } from 'react-icons/md';
 import { IoMdAdd } from 'react-icons/io';
+import { IoMdAddCircle } from 'react-icons/io';
 import '../quiz/quiz.css';
 // import { format } from 'date-fns';
 const Quiz = () => {
@@ -16,7 +17,11 @@ const Quiz = () => {
   const [isEditingTitle, setIsEditingTitle] = useState(false);
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
-  const [selectedModule, setSelectedModule] = useState(null);
+  const [showQuestionButtons, setShowQuestionButton] = useState(false);
+
+  const toggleShowQuestionButton = () => {
+    setShowQuestionButton(!showQuestionButtons);
+  };
 
   const useQuery = () => {
     return new URLSearchParams(useLocation().search);
@@ -328,35 +333,45 @@ const Quiz = () => {
       <h3 style={{ fontWeight: 'bolder' }} className="quiz-builder">
         Quiz Builder
       </h3>
-      <div style={{ display: 'flex', justifyContent: 'left', alignContent: 'center', flex: 'row', marginTop: '20px' }}>
-        <Button
-          className="single-choice"
-          variant="outline-primary"
-          onClick={() => addQuestion('single_choice')}
-          style={{ backgroundColor: '#F3F3FF', color: '##514AC9' }}
-        >
-          <BsRecordCircleFill style={{ marginRight: '4px', marginTop: '-3' }} />
-          <b>Add Single Choice</b>
-        </Button>
-        <Button
-          className="multi-choice"
-          variant="outline-primary "
-          onClick={() => addQuestion('multi_choice')}
-          style={{ backgroundColor: '#F3F3FF', color: '##514AC9' }}
-        >
-          <BiCheckboxSquare style={{ marginRight: '4px', fontSize: '20px', marginTop: '-3' }} />
-          <b>Add Multi Choice </b>
-        </Button>
-        <Button
-          variant="outline-primary "
-          className="text-choice"
-          onClick={() => addQuestion('text')}
-          style={{ backgroundColor: '#F3F3FF', color: '##514AC9' }}
-        >
-          <CiText style={{ marginRight: '4px', fontSize: '20px', marginTop: '-3' }} />
-          <b>Add Text</b>
-        </Button>
-      </div>
+
+      <Button style={{ color: '#0000FF', background: 'transparent', border: 'none', outline: 'none' }}
+      onClick={toggleShowQuestionButton}
+      >
+        <IoMdAddCircle style={{ fontSize: '20px' }} className="me-1" />
+        <b className="ml-3">Add Question</b>
+      </Button>
+
+      {showQuestionButtons && (
+        <div style={{ display: 'flex', justifyContent: 'left', alignContent: 'center', flex: 'row', marginTop: '20px' }}>
+          <Button
+            className="single-choice"
+            variant="outline-primary"
+            onClick={() => addQuestion('single_choice')}
+            style={{ backgroundColor: '#F3F3FF', color: '##514AC9' }}
+          >
+            <BsRecordCircleFill style={{ marginRight: '4px', marginTop: '-3' }} />
+            <b>Add Single Choice</b>
+          </Button>
+          <Button
+            className="multi-choice"
+            variant="outline-primary "
+            onClick={() => addQuestion('multi_choice')}
+            style={{ backgroundColor: '#F3F3FF', color: '##514AC9' }}
+          >
+            <BiCheckboxSquare style={{ marginRight: '4px', fontSize: '20px', marginTop: '-3' }} />
+            <b>Add Multi Choice </b>
+          </Button>
+          <Button
+            variant="outline-primary "
+            className="text-choice"
+            onClick={() => addQuestion('text')}
+            style={{ backgroundColor: '#F3F3FF', color: '##514AC9' }}
+          >
+            <CiText style={{ marginRight: '4px', fontSize: '20px', marginTop: '-3' }} />
+            <b>Add Text</b>
+          </Button>
+        </div>
+      )}
 
       {questions?.length > 0 ? (
         <Card
@@ -446,12 +461,12 @@ const Quiz = () => {
 
                     {/* ----------------------Points---------------- */}
 
-                    <div 
-                     style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '10px',
-                    }}
+                    <div
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '10px'
+                      }}
                     >
                       <Form.Group
                         className="ml-auto"
