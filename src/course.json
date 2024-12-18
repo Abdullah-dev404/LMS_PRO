@@ -1,0 +1,30 @@
+[
+      {
+        "title":"",
+        "author":"",
+        "created_at":"",
+        "course_image":"",
+        "type":"course",
+        "id":"7918256",
+        "module": [
+          {
+            "title":"",
+            "created_at":"",
+            "type":"module",
+            "course_id":"7918256",
+            "id":"791558256",
+            "section":[
+              {
+                "title":"",
+                "star_time":"",
+                "end_time":"",
+                "type":"quiz",
+                "id":"7918256256",
+                "section_id":"791558256"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  

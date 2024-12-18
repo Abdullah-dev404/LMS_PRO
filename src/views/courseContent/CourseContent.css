@@ -1,0 +1,71 @@
+
+
+.accordion-header > button{
+    font-size: 20px;
+  }
+  .module_name{
+    font-size: 15px;
+  }
+  .quiz{
+    color: #D92165;
+    cursor: pointer;
+  }
+.quiz_icon{
+  font-size: 35px;
+  margin-bottom: 3px;
+  color: #D92165;
+  cursor: pointer;
+}
+.assignment{
+  color: #6D78FA;
+  cursor: pointer;
+}
+.assignment-icon{
+  font-size: 35px;
+  margin-bottom: 3px;
+  color: #6D78FA;
+  cursor: pointer;
+}
+.video{
+  color: #D3291C;
+  cursor: pointer;
+}
+.video-icon{
+  font-size: 35px;
+  margin-bottom: 3px;
+  color: #D3291C;
+  cursor: pointer;
+}
+.close-button{
+  background-color: #43C9A2;
+}
+.close-button:hover{
+  background-color: #43C9A2;
+}
+.activity-title{
+  color: #3F4D67;
+  font-weight: bolder;
+}
+.activity-list{
+  list-style-type: none;
+}
+.activity-list li svg {
+  font-size: 1.3rem;
+  margin-right: 5px;
+}
+.add-module-title{
+  color: #3F4D67;
+  font-weight: bolder;
+}
+.save-button{
+  background-color: #43C9A2;
+}
+.save-button:hover{
+  background-color: #43C9A2;
+}
+.card {
+  transition: box-shadow 0.2s ease;
+}
+.card.dragging {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}

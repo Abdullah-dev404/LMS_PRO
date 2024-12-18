@@ -1,0 +1,13 @@
+.more_info_button{
+    border: none;
+    background: none;
+    color: gray;
+}
+.button{
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+}
+.more_info_button:hover{
+  color: red;
+}
