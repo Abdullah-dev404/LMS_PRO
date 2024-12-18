@@ -26,33 +26,32 @@ const CourseContent = () => {
   const [selectedModuleIndex, setSelectedModuleIndex] = useState(null);
   const [newModuleName, setNewModuleName] = useState('');
   const [editingIndex, setEditingIndex] = useState(null);
-  const [moduleId,setModuleId]= useState("")
-  const [quizData, setQuizData] = useState([])
+  const [moduleId, setModuleId] = useState('');
+  const [quizData, setQuizData] = useState([]);
 
-  const storedData = localStorage.getItem("quiz")
-  const parsedData = JSON.parse(storedData)
+  const storedData = localStorage.getItem('quiz');
+  const parsedData = JSON.parse(storedData);
   // setQuizData(parsedData)
   // console.log(quizData)
 
-// const getDataFromLocalStorage = () => {
-//   const storedData = localStorage.getItem("quiz")
-//   if (storedData) {
-//     try {
-//        const parsedData = JSON.parse(storedData)
-//       // setQuizData(parsedData);
+  // const getDataFromLocalStorage = () => {
+  //   const storedData = localStorage.getItem("quiz")
+  //   if (storedData) {
+  //     try {
+  //        const parsedData = JSON.parse(storedData)
+  //       // setQuizData(parsedData);
 
-//     } catch (error) {
-//       console.error('Error parsing JSON data from localStorage:', error);
-//       return null;
-//     }
-//   } else {
-//     console.log('No data found in localStorage for the given key.');
-//     return null;
-//   }
-// };
+  //     } catch (error) {
+  //       console.error('Error parsing JSON data from localStorage:', error);
+  //       return null;
+  //     }
+  //   } else {
+  //     console.log('No data found in localStorage for the given key.');
+  //     return null;
+  //   }
+  // };
 
-// const formData = getDataFromLocalStorage();
-
+  // const formData = getDataFromLocalStorage();
 
   useEffect(() => {
     const filteredModules = course_id ? modules?.filter((module) => module.course_id === course_id) : [];
@@ -67,7 +66,7 @@ const CourseContent = () => {
   };
 
   const handleShow = (type, moduleIndex = null, module_id) => {
-    setModuleId(module_id)
+    setModuleId(module_id);
     setModalType(type);
     setSelectedModuleIndex(moduleIndex);
     setShow(true);
@@ -129,7 +128,7 @@ const CourseContent = () => {
 
   // eslint-disable-next-line no-unused-vars
   const addQuiz = () => {
-    window.location.href=`http://localhost:3000/app/course-content/quiz?moduleId=${moduleId}`;
+    window.location.href = `http://localhost:3000/app/course-content/quiz?moduleId=${moduleId}`;
   };
   return (
     <Container fluid className="p-0">
@@ -195,14 +194,20 @@ const CourseContent = () => {
                                           : 'black'
                                 }}
                               >
-                                {activity.title === 'Quiz' && <MdOutlineQuiz />}
+                                {/* {activity.title === 'Quiz' && <MdOutlineQuiz />}
                                 {activity.title === 'Assignment' && <IoDocumentTextOutline />}
-                                {activity.title === 'Videos' && <MdOndemandVideo />}
-                                <b>{activity.title}</b>
+                                {activity.title === 'Videos' && <MdOndemandVideo />} */}
+                                <MdOutlineQuiz />
+                                <b>Quiz</b>
                               </li>
                             ))}
+
+                            <li>
+                              <MdOutlineQuiz style={{color:"#D92165",cursor:"pointer"}}/>
+                              <b style={{color:"#D92165",cursor:"pointer"}} >Quiz</b>
+                            </li>
                           </ul>
-                          <Button variant="outline-primary" className="mt-2" onClick={() => handleShow('addActivity', index,module.id)}>
+                          <Button variant="outline-primary" className="mt-2" onClick={() => handleShow('addActivity', index, module.id)}>
                             Add Activity
                           </Button>
                         </Accordion.Body>

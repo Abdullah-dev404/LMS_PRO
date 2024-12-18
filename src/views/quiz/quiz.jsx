@@ -339,7 +339,7 @@ const Quiz = () => {
           <b>Add Single Choice</b>
         </Button>
         <Button
-        className='multi-choice'
+          className="multi-choice"
           variant="outline-primary "
           onClick={() => addQuestion('multi_choice')}
           style={{ backgroundColor: '#F3F3FF', color: '##514AC9' }}
@@ -347,10 +347,12 @@ const Quiz = () => {
           <BiCheckboxSquare style={{ marginRight: '4px', fontSize: '20px', marginTop: '-3' }} />
           <b>Add Multi Choice </b>
         </Button>
-        <Button variant="outline-primary "
-        className='text-choice' 
-        onClick={() => addQuestion('text')} 
-        style={{ backgroundColor: '#F3F3FF', color: '##514AC9' }}>
+        <Button
+          variant="outline-primary "
+          className="text-choice"
+          onClick={() => addQuestion('text')}
+          style={{ backgroundColor: '#F3F3FF', color: '##514AC9' }}
+        >
           <CiText style={{ marginRight: '4px', fontSize: '20px', marginTop: '-3' }} />
           <b>Add Text</b>
         </Button>
@@ -431,25 +433,27 @@ const Quiz = () => {
                     style={{
                       display: 'flex',
                       justifyContent: 'space-between',
-                      alignItems: 'end',
-                      flex: 'row',
-                      gap: '5px'
+                      alignItems: 'center',
+                      gap: '10px'
                     }}
                   >
                     {/* <div style={{ display: 'flex', justifyContent: 'space-between', gap: '5px' }}> */}
                     <Form.Label as="h5" style={{ fontWeight: 'bold' }}>
                       Question #{index + 1}
                     </Form.Label>
-                    <MdDelete
-                      className="feather icon-trash-2 mb-2"
-                      style={{ cursor: 'pointer', margin: '0', fontSize: '22px', color: 'gray' }}
-                      onClick={() => deleteQuestion(question.id)}
-                    />
+
                     {/* </div> */}
 
                     {/* ----------------------Points---------------- */}
 
-                    {/* <Form.Group
+                    <div 
+                     style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '10px',
+                    }}
+                    >
+                      <Form.Group
                         className="ml-auto"
                         style={{
                           display: 'flex',
@@ -461,14 +465,21 @@ const Quiz = () => {
                       >
                         <Form.Label as="h5">Points</Form.Label>
                         <Form.Control
-                          type="number"
+                          type="text"
                           min={0}
                           value={question.points}
                           onChange={(e) => updateQuestion(question.id, 'points', parseInt(e.target.value, 10) || 0)}
                           placeholder="Enter points for this question"
-                          style={{ padding: '3px 2px' }}
+                          style={{ padding: '3px 2px', width: '30px' }}
                         />
-                      </Form.Group> */}
+                      </Form.Group>
+
+                      <MdDelete
+                        className="feather icon-trash-2 mb-2"
+                        style={{ cursor: 'pointer', fontSize: '22px', color: 'gray', justifyContent: 'end' }}
+                        onClick={() => deleteQuestion(question.id)}
+                      />
+                    </div>
                   </div>
                   <Form.Control
                     type="text"
