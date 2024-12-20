@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Card, Form, InputGroup, Col, Row } from 'react-bootstrap';
 import { toast } from 'react-toastify';
-import sections from '../questions/config/sections.json';
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { useLocation } from 'react-router-dom';
 import { BsRecordCircleFill } from 'react-icons/bs';
 import { BiCheckboxSquare } from 'react-icons/bi';
@@ -18,6 +18,7 @@ const Quiz = () => {
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [showQuestionButtons, setShowQuestionButton] = useState(false);
+  const [oneTimeAppears, setOneTimeAppears] = useState(true);
 
   const toggleShowQuestionButton = () => {
     setShowQuestionButton(!showQuestionButtons);
@@ -53,7 +54,19 @@ const Quiz = () => {
         points: 1
       }
     ]);
+    setShowQuestionButton(!showQuestionButtons);
+    setOneTimeAppears(false);
   };
+
+  function handleOnDragEnd(result) {
+    if (!result.destination) return;
+  
+    const updatedQuestions = Array.from(questions);
+    const [reorderedItem] = updatedQuestions.splice(result.source.index, 1);
+    updatedQuestions.splice(result.destination.index, 0, reorderedItem);
+  
+    setQuestions(updatedQuestions); // Assuming `setQuestions` is your state updater for questions
+  }
 
   // Update a question field
   const updateQuestion = (id, field, value) => {
@@ -333,43 +346,46 @@ const Quiz = () => {
       <h3 style={{ fontWeight: 'bolder' }} className="quiz-builder">
         Quiz Builder
       </h3>
-
-      <Button style={{ color: '#0000FF', background: 'transparent', border: 'none', outline: 'none' }}
-      onClick={toggleShowQuestionButton}
-      >
-        <IoMdAddCircle style={{ fontSize: '20px' }} className="me-1" />
-        <b className="ml-3">Add Question</b>
-      </Button>
-
-      {showQuestionButtons && (
-        <div style={{ display: 'flex', justifyContent: 'left', alignContent: 'center', flex: 'row', marginTop: '20px' }}>
+      {oneTimeAppears && (
+        <div>
           <Button
-            className="single-choice"
-            variant="outline-primary"
-            onClick={() => addQuestion('single_choice')}
-            style={{ backgroundColor: '#F3F3FF', color: '##514AC9' }}
+            style={{ color: '#0000FF', background: 'transparent', border: 'none', outline: 'none' }}
+            onClick={toggleShowQuestionButton}
           >
-            <BsRecordCircleFill style={{ marginRight: '4px', marginTop: '-3' }} />
-            <b>Add Single Choice</b>
+            <IoMdAddCircle style={{ fontSize: '20px' }} className="me-1" />
+            <b className="ml-3">Add Question</b>
           </Button>
-          <Button
-            className="multi-choice"
-            variant="outline-primary "
-            onClick={() => addQuestion('multi_choice')}
-            style={{ backgroundColor: '#F3F3FF', color: '##514AC9' }}
-          >
-            <BiCheckboxSquare style={{ marginRight: '4px', fontSize: '20px', marginTop: '-3' }} />
-            <b>Add Multi Choice </b>
-          </Button>
-          <Button
-            variant="outline-primary "
-            className="text-choice"
-            onClick={() => addQuestion('text')}
-            style={{ backgroundColor: '#F3F3FF', color: '##514AC9' }}
-          >
-            <CiText style={{ marginRight: '4px', fontSize: '20px', marginTop: '-3' }} />
-            <b>Add Text</b>
-          </Button>
+          {showQuestionButtons && (
+            <div style={{ display: 'flex', justifyContent: 'left', alignContent: 'center', flex: 'row', marginTop: '20px' }}>
+              <Button
+                className="single-choice"
+                variant="outline-primary"
+                onClick={() => addQuestion('single_choice')}
+                style={{ backgroundColor: '#F3F3FF', color: '##514AC9' }}
+              >
+                <BsRecordCircleFill style={{ marginRight: '4px', marginTop: '-3' }} />
+                <b>Add Single Choice</b>
+              </Button>
+              <Button
+                className="multi-choice"
+                variant="outline-primary "
+                onClick={() => addQuestion('multi_choice')}
+                style={{ backgroundColor: '#F3F3FF', color: '##514AC9' }}
+              >
+                <BiCheckboxSquare style={{ marginRight: '4px', fontSize: '20px', marginTop: '-3' }} />
+                <b>Add Multi Choice </b>
+              </Button>
+              <Button
+                variant="outline-primary "
+                className="text-choice"
+                onClick={() => addQuestion('text')}
+                style={{ backgroundColor: '#F3F3FF', color: '##514AC9' }}
+              >
+                <CiText style={{ marginRight: '4px', fontSize: '20px', marginTop: '-3' }} />
+                <b>Add Text</b>
+              </Button>
+            </div>
+          )}
         </div>
       )}
 
@@ -402,127 +418,166 @@ const Quiz = () => {
             </div>
           </Card.Header>
           <Card.Body>
-            <Row>
-              <Col>
-                <Form.Group className="p-2" md="6" controlId="formBasicStartDate">
-                  <Form.Label as="h6">Start Date</Form.Label>
-                  <Form.Control
-                    type="datetime-local"
-                    name="startDate"
-                    placeholder="Enter Start Date"
-                    value={startDate}
-                    onChange={(e) => setStartDate(e.target.value)}
-                    style={{
-                      border: 'none',
-                      borderBottom: '2px solid #0000FF',
-                      outline: 'none',
-                      borderRadius: '0'
-                    }}
-                  />
-                </Form.Group>
-              </Col>
-              <Col>
-                <Form.Group className="p-2" md="6" controlId="formBasicEndDate">
-                  <Form.Label as="h6">End Date</Form.Label>
-                  <Form.Control
-                    type="datetime-local"
-                    name="endDate"
-                    placeholder="Enter End Date"
-                    value={endDate}
-                    onChange={(e) => setEndDate(e.target.value)}
-                    style={{
-                      border: 'none',
-                      borderBottom: '2px solid #0000FF',
-                      outline: 'none',
-                      borderRadius: '0'
-                    }}
-                  />
-                  {/* <Form.Control type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} /> */}
-                </Form.Group>
-              </Col>
-            </Row>
-            {questions.map((question, index) => (
-              <div key={question.id} className="mb-3 p-2 rounded">
-                <Form.Group controlId={`question-${index}`}>
-                  <div
-                    style={{
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      alignItems: 'center',
-                      gap: '10px'
-                    }}
-                  >
-                    {/* <div style={{ display: 'flex', justifyContent: 'space-between', gap: '5px' }}> */}
-                    <Form.Label as="h5" style={{ fontWeight: 'bold' }}>
-                      Question #{index + 1}
-                    </Form.Label>
-
-                    {/* </div> */}
-
-                    {/* ----------------------Points---------------- */}
-
+  <DragDropContext onDragEnd={handleOnDragEnd}>
+    <Droppable droppableId="questions">
+      {(provided) => (
+        <div {...provided.droppableProps} ref={provided.innerRef}>
+          {questions.map((question, index) => (
+            <Draggable key={question.id} draggableId={question.id.toString()} index={index}>
+              {(provided) => (
+                <div
+                  ref={provided.innerRef}
+                  {...provided.draggableProps}
+                  {...provided.dragHandleProps}
+                  className="mb-3 p-2 rounded"
+                  style={{
+                    ...provided.draggableProps.style,
+                    background: 'white',
+                    borderRadius: '8px',
+                  }}
+                >
+                  <Form.Group controlId={`question-${index}`}>
                     <div
                       style={{
                         display: 'flex',
+                        justifyContent: 'space-between',
                         alignItems: 'center',
-                        gap: '10px'
+                        gap: '10px',
                       }}
                     >
-                      <Form.Group
-                        className="ml-auto"
+                      <Form.Label as="h5" style={{ fontWeight: 'bold' }}>
+                        Question #{index + 1}
+                      </Form.Label>
+
+                      <div
                         style={{
                           display: 'flex',
-                          justifyContent: 'end',
-                          alignItems: 'baseline',
-                          flex: 'row',
-                          gap: '5px'
+                          alignItems: 'center',
+                          gap: '10px',
                         }}
                       >
-                        <Form.Label as="h5">Points</Form.Label>
-                        <Form.Control
-                          type="text"
-                          min={0}
-                          value={question.points}
-                          onChange={(e) => updateQuestion(question.id, 'points', parseInt(e.target.value, 10) || 0)}
-                          placeholder="Enter points for this question"
-                          style={{ padding: '3px 2px', width: '30px' }}
-                        />
-                      </Form.Group>
+                        <Form.Group
+                          className="ml-auto"
+                          style={{
+                            display: 'flex',
+                            justifyContent: 'end',
+                            alignItems: 'baseline',
+                            flex: 'row',
+                            gap: '5px',
+                          }}
+                        >
+                          <Form.Label as="h5">Points</Form.Label>
+                          <Form.Control
+                            type="text"
+                            min={0}
+                            value={question.points}
+                            onChange={(e) =>
+                              updateQuestion(question.id, 'points', parseInt(e.target.value, 10) || 0)
+                            }
+                            placeholder="Enter points for this question"
+                            style={{ padding: '3px 2px', width: '30px' }}
+                          />
+                        </Form.Group>
 
-                      <MdDelete
-                        className="feather icon-trash-2 mb-2"
-                        style={{ cursor: 'pointer', fontSize: '22px', color: 'gray', justifyContent: 'end' }}
-                        onClick={() => deleteQuestion(question.id)}
-                      />
+                        <MdDelete
+                          className="feather icon-trash-2 mb-2"
+                          style={{ cursor: 'pointer', fontSize: '22px', color: 'gray', justifyContent: 'end' }}
+                          onClick={() => deleteQuestion(question.id)}
+                        />
+                      </div>
                     </div>
+                    <Form.Control
+                      type="text"
+                      value={question.question}
+                      onChange={(e) => updateQuestion(question.id, 'question', e.target.value)}
+                      placeholder="Enter your question"
+                      style={{
+                        border: 'none',
+                        borderBottom: '2px solid #0000FF',
+                        outline: 'none',
+                        borderRadius: '0',
+                      }}
+                    />
+                  </Form.Group>
+                  {renderQuestion(question)}
+                  <div style={{ display: 'flex', alignContent: 'center', flex: 'row' }}>
+                    <Button
+                      onClick={() => addOption(question.id)}
+                      className={question.type !== 'text' ? 'd-flex' : 'd-none'}
+                      style={{
+                        color: '#0000FF',
+                        background: 'transparent',
+                        border: 'none',
+                        outline: 'none',
+                      }}
+                    >
+                      <IoMdAdd style={{ fontSize: '20px' }} className="mr-3" />
+                      <b className="ml-3">Add Option</b>
+                    </Button>
                   </div>
-                  <Form.Control
-                    type="text"
-                    value={question.question}
-                    onChange={(e) => updateQuestion(question.id, 'question', e.target.value)}
-                    placeholder="Enter your question"
-                    style={{
-                      border: 'none',
-                      borderBottom: '2px solid #0000FF',
-                      outline: 'none',
-                      borderRadius: '0'
-                    }}
-                  />
-                </Form.Group>
-                {renderQuestion(question)}
-                <div style={{ display: 'flex', alignContent: 'center', flex: 'row' }}>
-                  <Button
-                    onClick={() => addOption(question.id)}
-                    className={question.type !== 'text' ? 'd-flex' : 'd-none'}
-                    style={{ color: '#0000FF', background: 'transparent', border: 'none', outline: 'none' }}
-                  >
-                    <IoMdAdd style={{ fontSize: '20px' }} className="mr-3" />
-                    <b className="ml-3">Add Option</b>
-                  </Button>
                 </div>
-              </div>
-            ))}
-          </Card.Body>
+              )}
+            </Draggable>
+          ))}
+          {provided.placeholder}
+        </div>
+      )}
+    </Droppable>
+  </DragDropContext>
+  <div>
+    <Button
+      style={{
+        color: '#0000FF',
+        background: 'transparent',
+        border: 'none',
+        outline: 'none',
+      }}
+      onClick={toggleShowQuestionButton}
+    >
+      <IoMdAddCircle style={{ fontSize: '20px' }} className="me-1" />
+      <b>Add Question</b>
+    </Button>
+
+    {showQuestionButtons && (
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'flex-start',
+          gap: '10px',
+          marginTop: '10px',
+        }}
+      >
+        <Button
+          className="single-choice"
+          variant="outline-primary"
+          onClick={() => addQuestion('single_choice')}
+          style={{ backgroundColor: '#F3F3FF', color: '##514AC9' }}
+        >
+          <BsRecordCircleFill style={{ marginRight: '4px', marginTop: '-3' }} />
+          <b>Add Single Choice</b>
+        </Button>
+        <Button
+          className="multi-choice"
+          variant="outline-primary"
+          onClick={() => addQuestion('multi_choice')}
+          style={{ backgroundColor: '#F3F3FF', color: '##514AC9' }}
+        >
+          <BiCheckboxSquare style={{ marginRight: '4px', fontSize: '20px', marginTop: '-3' }} />
+          <b>Add Multi Choice</b>
+        </Button>
+        <Button
+          variant="outline-primary"
+          className="text-choice"
+          onClick={() => addQuestion('text')}
+          style={{ backgroundColor: '#F3F3FF', color: '##514AC9' }}
+        >
+          <CiText style={{ marginRight: '4px', fontSize: '20px', marginTop: '-3' }} />
+          <b>Add Text</b>
+        </Button>
+      </div>
+    )}
+  </div>
+</Card.Body>
           <Card.Footer
             style={{
               display: 'flex',

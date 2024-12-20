@@ -8,6 +8,7 @@ import { MdOutlineQuiz } from 'react-icons/md';
 import { MdOndemandVideo } from 'react-icons/md';
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
 import { MdModeEdit } from 'react-icons/md';
+import { MdOutlineCreateNewFolder } from "react-icons/md";
 import './CourseContent.css';
 import { useLocation } from 'react-router-dom';
 import modules from '../questions/config/modules.json';
@@ -209,6 +210,17 @@ const CourseContent = () => {
                           </ul>
                           <Button variant="outline-primary" className="mt-2" onClick={() => handleShow('addActivity', index, module.id)}>
                             Add Activity
+                          </Button>
+                          <Button 
+                          style={{
+                            backgroundColor:"transparent",
+                            color:"blue",
+                            border:"none",
+                          }} 
+                          onClick={()=>{window.location.href = '/app/contentEditor/templateOne'}}
+                          >
+                           <MdOutlineCreateNewFolder style={{fontSize:"20px",marginRight:"5px",marginTop:"-2"}}/> 
+                           Add Content
                           </Button>
                         </Accordion.Body>
                       </Accordion.Item>
