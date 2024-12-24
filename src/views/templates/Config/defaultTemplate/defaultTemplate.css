@@ -1,0 +1,54 @@
+.app-container {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .popover-button {
+    padding: 10px 20px;
+    background-color: #4db2f6;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .popover-button:hover {
+    background-color: #369ad7;
+  }
+  
+  .popover {
+    position: absolute;
+    top: 50px;
+    left: calc(50% - 100px);
+    width: 200px;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    z-index: 100;
+  }
+  
+  .popover-item {
+    padding: 10px;
+    cursor: pointer;
+    text-align: left;
+  }
+  
+  .popover-item:hover {
+    background-color: #f0f0f0;
+  }
+  
+  .template-container {
+    margin-top: 50px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    min-height: 200px;
+  }
+  
+  .template {
+    font-size: 20px;
+    color: #333;
+  }
+  

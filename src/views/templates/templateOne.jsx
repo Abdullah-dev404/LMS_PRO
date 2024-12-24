@@ -6,103 +6,104 @@ import Card from 'react-bootstrap/Card';
 import { MdOutlineQuiz } from 'react-icons/md';
 import { FaRegImage } from 'react-icons/fa';
 import { CiText } from 'react-icons/ci';
-// import Quiz from 'views/questions/Quiz';
+import Quiz from 'views/quiz/quiz';
+import SelectImage from 'components/SelectImage/selectImage';
+import TextEditor from 'components/TextEditor/texteditor';
+
 function TemplateOne() {
   const [show, setShow] = useState(false);
-  const [activityType,setActivityType]=useState("")
-  const [boxActivity, setBoxActivity] = useState({})
-
-
-
+  const [activityType, setActivityType] = useState("");
+  const [boxActivity, setBoxActivity] = useState({});
 
   const handleClose = () => setShow(false);
-  const handleShow = (box) =>{
-    setActivityType(box)
+  const handleShow = (box) => {
     setShow(true);
-  } 
+    setActivityType(box);
+  };
+
+  const saveActivityType = (type) => {
+    setBoxActivity((prev) => ({
+      ...prev,
+      [activityType]: type,
+    }));
+    handleClose();
+  };
+
+  const renderContent = (box) => {
+    switch (boxActivity[box]) {
+      case "quiz":
+        return <Quiz />;
+      case "image":
+        return <SelectImage/>
+      case "text":
+        return <TextEditor/>
+      default:
+        return (
+          <Button
+            onClick={() => handleShow(box)}
+            style={{
+              backgroundColor: 'transparent',
+              border: 'none',
+              color: '#0000FF',
+            }}
+          >
+            <IoIosAddCircle style={{ fontSize: '20px', marginRight: '5px' }} />
+            <b>Add Content Type</b>
+          </Button>
+        );
+    }
+  };
+
   return (
     <Container>
       <Row>
-        <Col>
+        <Col md={6} sm={12}>
           <Card
             style={{
-              minHeight: '500px',
+              minHeight: '70vh',
+              // maxHeight:'70vh',
               borderRadius: '10px',
-              boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px'
+              boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px',
             }}
           >
             <Card.Header>
               <b style={{ color: '#3F4D67', fontSize: '15px' }}>Box One</b>
             </Card.Header>
-            <Card.Body>
-              <Button
-                onClick={handleShow}
-                style={{
-                  backgroundColor: 'transparent',
-                  border: 'none',
-                  color: '#0000FF'
-                }}
-              >
-                <IoIosAddCircle style={{ fontSize: '20px', marginRight: '5px' }} />
-                <b>Add Content Type</b>
-              </Button>
-            </Card.Body>
+            <Card.Body>{renderContent("box1")}</Card.Body>
           </Card>
         </Col>
 
         {/* ________________________ Col TWO __________________ */}
-        <Col>
-          <Row style={{ minHeight: '50%' }}>
-            <Card
+        <Col md={6} sm={12}>
+            <Card md={12}
               style={{
                 borderRadius: '10px',
-                boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px'
+                boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px',
+                minHeight:'32vh',
+     
               }}
             >
               <Card.Header>
-                <b style={{ color: '#3F4D67', fontSize: '15px' }}>Box One</b>
+                <b style={{ color: '#3F4D67', fontSize: '15px' }}>Box Two</b>
               </Card.Header>
-              <Card.Body>
-                <Button
-                  onClick={handleShow}
-                  style={{
-                    backgroundColor: 'transparent',
-                    border: 'none',
-                    color: '#0000FF'
-                  }}
-                >
-                  <IoIosAddCircle style={{ fontSize: '20px', marginRight: '5px' }} />
-                  <b>Add Content Type</b>
-                </Button>
-              </Card.Body>
+              <Card.Body>{renderContent("box2")}</Card.Body>
             </Card>
-          </Row>
+   
 
-          <Row style={{ minHeight: '50%' }}>
-            <Card
+            <Card md={12}
               style={{
                 borderRadius: '10px',
-                boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px'
+                boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px',
+                minHeight:'33vh',
+            
               }}
             >
               <Card.Header>
-                <b style={{ color: '#3F4D67', fontSize: '15px' }}>Box One</b>
+                <b style={{ color: '#3F4D67', fontSize: '15px' }}>Box Three</b>
               </Card.Header>
-              <Card.Body>
-                <Button
-                  onClick={handleShow}
-                  style={{
-                    backgroundColor: 'transparent',
-                    border: 'none',
-                    color: '#0000FF'
-                  }}
-                >
-                  <IoIosAddCircle style={{ fontSize: '20px', marginRight: '5px' }} />
-                  <b>Add Content Type</b>
-                </Button>
-              </Card.Body>
+              <Card.Body>{renderContent("box3")}</Card.Body>
             </Card>
-          </Row>
+
         </Col>
       </Row>
 
@@ -124,36 +125,48 @@ function TemplateOne() {
             <Col xs={4} md={4} className="d-flex flex-column align-items-center justify-content-center">
               <div className="d-flex flex-column align-items-center justify-content-center">
                 <MdOutlineQuiz
-                onClick={()=>{setActivityType('quiz')}} 
-                style={{ fontSize: '30px', color: '#D92165',cursor:"pointer"}}  />
+                  onClick={() => saveActivityType('quiz')}
+                  style={{ fontSize: '30px', color: '#D92165', cursor: 'pointer' }}
+                />
                 <div>
-                  <b 
-                  onClick={()=>{setActivityType('quiz')}} 
-                  style={{ color: '#D92165', fontSize: '15px',cursor:"pointer" }}>Quiz</b>
+                  <b
+                    onClick={() => saveActivityType('quiz')}
+                    style={{ color: '#D92165', fontSize: '15px', cursor: 'pointer' }}
+                  >
+                    Quiz
+                  </b>
                 </div>
               </div>
             </Col>
             <Col xs={4} md={4} className="d-flex flex-column align-items-center justify-content-center ">
               <div className="d-flex flex-column align-items-center justify-content-center">
-                <FaRegImage 
-                onClick={()=>{setActivityType('image')}} 
-                style={{ fontSize: '30px', color: '#235990',cursor:"pointer" }} />
+                <FaRegImage
+                  onClick={() => saveActivityType('image')}
+                  style={{ fontSize: '30px', color: '#235990', cursor: 'pointer' }}
+                />
                 <div>
                   <b
-                  onClick={()=>{setActivityType('image')}}  
-                  style={{ color: '#235990', fontSize: '15px',cursor:"pointer" }}>Images</b>
+                    onClick={() => saveActivityType('image')}
+                    style={{ color: '#235990', fontSize: '15px', cursor: 'pointer' }}
+                  >
+                    Images
+                  </b>
                 </div>
               </div>
             </Col>
             <Col xs={4} md={4} className="d-flex flex-column align-items-center justify-content-center ">
               <div>
                 <CiText
-                onClick={()=>{setActivityType('text')}}  
-                style={{ fontSize: '30px', color: '#5A5B96',cursor:"pointer" }} />
+                  onClick={() => saveActivityType('text')}
+                  style={{ fontSize: '30px', color: '#5A5B96', cursor: 'pointer' }}
+                />
                 <div className="d-flex flex-column align-items-center justify-content-center">
-                  <b 
-                  onClick={()=>{setActivityType('text')}} 
-                  style={{ color: '#5A5B96', fontSize: '15px',cursor:"pointer" }}>Text</b>
+                  <b
+                    onClick={() => saveActivityType('text')}
+                    style={{ color: '#5A5B96', fontSize: '15px', cursor: 'pointer' }}
+                  >
+                    Text
+                  </b>
                 </div>
               </div>
             </Col>

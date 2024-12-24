@@ -1,0 +1,50 @@
+.rdw-link-modal {
+    height: auto;
+}
+.rdw-embedded-modal{
+    height: auto;
+}
+.rdw-editor-wrapper{
+    border: 1px solid gray;
+}
+.editorClassName{
+    height: 50vh;
+}
+.toolbarClassName{
+    background-color: #3F4D67;
+    min-height: 60px;
+    height:auto;
+}
+.save-content{
+    background-color: #3F4D67;
+    border: #3F4D67;
+}
+.save-content:hover{
+    background-color: #1515FF;
+    border:#1515FF;
+}
+
+  
+  /* Webkit browsers (Chrome, Safari, Edge) */
+  .editorClassName::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  .editorClassName::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+  
+  .editorClassName::-webkit-scrollbar-thumb {
+    background: #3F4D67;
+    border-radius: 5px;
+  }
+  
+  .editorClassName::-webkit-scrollbar-thumb:hover {
+    background: #3F4D67;
+  }
+  
+  /* Firefox */
+  .editorClassName {
+    scrollbar-width: thin;
+    scrollbar-color: #3F4D67#f1f1f1;
+  }

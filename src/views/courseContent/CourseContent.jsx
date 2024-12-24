@@ -217,7 +217,7 @@ const CourseContent = () => {
                             color:"blue",
                             border:"none",
                           }} 
-                          onClick={()=>{window.location.href = '/app/contentEditor/templateOne'}}
+                          onClick={()=>{window.location.href = '/app/courseContent/defaultTemplate'}}
                           >
                            <MdOutlineCreateNewFolder style={{fontSize:"20px",marginRight:"5px",marginTop:"-2"}}/> 
                            Add Content

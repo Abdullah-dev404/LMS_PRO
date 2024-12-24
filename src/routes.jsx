@@ -67,6 +67,11 @@ const routes = [
         element: lazy(() => import('./views/quiz/quiz'))
       },
       {
+        exact: 'true',
+        path: '/app/courseContent/defaultTemplate',
+        element: lazy(() => import('./views/templates/Config/defaultTemplate/defaultTemplate'))
+      },
+      {
         exact:'true',
         path:'/app/contentEditor/templateOne',
         element: lazy(() => import('./views/templates/templateOne'))

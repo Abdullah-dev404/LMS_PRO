@@ -56,7 +56,10 @@ export default defineConfig(({ mode }) => {
               }
             }
           }
-        ]
+        ],
+        optimizeDeps: {
+          include: ['draft-js-export-html'], // Add the package here
+        }
       }
     },
     base: API_URL,

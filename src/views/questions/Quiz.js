@@ -9,6 +9,7 @@ import { CiText } from 'react-icons/ci';
 import { MdDelete } from 'react-icons/md';
 import { IoMdAdd } from 'react-icons/io';
 import { IoMdAddCircle } from 'react-icons/io';
+import { typeConfig } from './type';
 import '../quiz/quiz.css';
 // import { format } from 'date-fns';
 const Quiz = () => {
