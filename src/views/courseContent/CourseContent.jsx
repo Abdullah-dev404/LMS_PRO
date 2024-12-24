@@ -208,18 +208,20 @@ const CourseContent = () => {
                               <b style={{color:"#D92165",cursor:"pointer"}} >Quiz</b>
                             </li>
                           </ul>
-                          <Button variant="outline-primary" className="mt-2" onClick={() => handleShow('addActivity', index, module.id)}>
+                          <Button variant="outline-primary" onClick={() => handleShow('addActivity', index, module.id)}>
                             Add Activity
                           </Button>
                           <Button 
+                          className='addContent'
+                          variant="outline-primary"
                           style={{
                             backgroundColor:"transparent",
-                            color:"blue",
-                            border:"none",
+                            color:"#0000FF",
+                            border:"1px solid #0000FF"
                           }} 
                           onClick={()=>{window.location.href = '/app/courseContent/defaultTemplate'}}
                           >
-                           <MdOutlineCreateNewFolder style={{fontSize:"20px",marginRight:"5px",marginTop:"-2"}}/> 
+                           {/* <MdOutlineCreateNewFolder style={{fontSize:"20px",marginRight:"5px",marginTop:"-2"}}/>  */}
                            Add Content
                           </Button>
                         </Accordion.Body>
