@@ -25,7 +25,6 @@
 }
 
   
-  /* Webkit browsers (Chrome, Safari, Edge) */
   .editorClassName::-webkit-scrollbar {
     width: 8px;
   }
@@ -43,7 +42,7 @@
     background: #3F4D67;
   }
   
-  /* Firefox */
+
   .editorClassName {
     scrollbar-width: thin;
     scrollbar-color: #3F4D67#f1f1f1;

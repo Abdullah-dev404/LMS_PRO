@@ -7,16 +7,21 @@ import LayoutThree from '../../../../assets/images/template/templateThree.png';
 import TemplateOne from 'views/templates/templateOne';
 import TemplateTwo from 'views/templates/templateTwo';
 import TemplateThree from 'views/templates/templateThree';
+import TemplateOneSS from '../../../../assets/images/template/TemplateOneSS.png';
+import TemplateTwoSS from '../../../../assets/images/template/TemplateTwoSS.png';
+import TemplateThreeSS from '../../../../assets/images/template/TemplateThreeSS.png';
 
 function DefaultTemplate() {
   const [showButton, setShowButton] = useState(false);
   const [selectedLayout, setSelectedLayout] = useState('');
   const [startButton, setStartButton] = useState(true);
+  const [hoverButton, setHoverButton] = useState('');
 
   const handleTemplateSelection = (template) => {
     setSelectedLayout(template);
     setShowButton(false);
     setStartButton(false);
+    setHoverButton("")
   };
 
   const renderSelectedLayout = () => {
@@ -32,27 +37,39 @@ function DefaultTemplate() {
     }
   };
 
+  const getImages = () => {
+    switch (hoverButton) {
+      case 'templateOne':
+        return TemplateOneSS;
+      case 'templateTwo':
+        return TemplateTwoSS;
+      case 'templateThree':
+        return TemplateThreeSS;
+      default:
+        return null;
+    }
+  };
   return (
     <Container>
-      {startButton && (
-        <div>
-          <h4 style={{ fontWeight: 'bolder', color: 'gray' }}>Select a Template</h4>
-          <Button
-            style={{
-              fontWeight: 'bolder',
-              backgroundColor: 'transparent',
-              color: '#514AC9',
-              border: 'none',
-              marginTop: '10px',
-              fontSize: '15px'
-            }}
-            onClick={() => setShowButton(!showButton)}
-          >
-            <HiTemplate className="me-1" style={{ fontSize: '20px' }} />
-            Quick Start Editing
-          </Button>
-        </div>
-      )}
+      {/* {startButton && ( */}
+      <div>
+        <h4 style={{ fontWeight: 'bolder', color: 'gray' }}>Select a Template</h4>
+        <Button
+          style={{
+            fontWeight: 'bolder',
+            backgroundColor: 'transparent',
+            color: '#514AC9',
+            border: 'none',
+            marginTop: '10px',
+            fontSize: '15px'
+          }}
+          onClick={() => setShowButton(!showButton)}
+        >
+          <HiTemplate className="me-1" style={{ fontSize: '20px' }} />
+          Quick Start Editing
+        </Button>
+      </div>
+      {/* )} */}
       {showButton && (
         <div
           className="TemplateButtons"
@@ -73,6 +90,12 @@ function DefaultTemplate() {
               alignItems: 'center',
               justifyContent: 'center'
             }}
+            onMouseEnter={() => {
+              setHoverButton('templateOne');
+            }}
+            onMouseLeave={() => {
+              setHoverButton('');
+            }}
             onClick={() => handleTemplateSelection('templateOne')}
           >
             <img src={LayoutOne} alt="" style={{ height: '15px', width: '18px', marginRight: '5px' }} />
@@ -90,6 +113,12 @@ function DefaultTemplate() {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center'
+            }}
+            onMouseEnter={() => {
+              setHoverButton('templateTwo');
+            }}
+            onMouseLeave={() => {
+              setHoverButton('');
             }}
             onClick={() => handleTemplateSelection('templateTwo')}
           >
@@ -109,11 +138,24 @@ function DefaultTemplate() {
               alignItems: 'center',
               justifyContent: 'center'
             }}
+            onMouseEnter={() => {
+              setHoverButton('templateThree');
+            }}
+            onMouseLeave={() => {
+              setHoverButton('');
+            }}
             onClick={() => handleTemplateSelection('templateThree')}
           >
             <img src={LayoutThree} alt="" style={{ height: '15px', width: '18px', marginRight: '5px' }} />
             Template Three
           </Button>
+        </div>
+      )}
+
+      {hoverButton && (
+        <div style={{marginTop: '10px'}}>
+          <img src={getImages()} alt="Hovered Template Preview" 
+          style={{ maxHeight: '250px', maxWidth: '120%',border:"1px solid #0000FF",borderRadius:"10px", boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px" }} />
         </div>
       )}
 

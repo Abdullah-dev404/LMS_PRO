@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Container, Form } from 'react-bootstrap';
+import { Button, Card, CardBody, CardHeader, Container, Form } from 'react-bootstrap';
 import { PiUploadSimpleBold } from 'react-icons/pi';
 
 
@@ -31,7 +31,17 @@ function SelectImage() {
 }
 
   return (
-    <Container>
+    <div
+    className="container selectImageModule"
+    style={{
+      maxWidth: '1000px',
+      backgroundColor: '#FFFFFF',
+      height: 'auto',
+      padding: '35px',
+      borderRadius: '20px',
+      boxShadow: 'rgba(99, 99, 99, 0.2) 0px 2px 8px 0px'
+    }}
+    >
       <h4 className="mb-3" style={{fontWeight:"bolder"}}>Select Image</h4>
       <Form.Group controlId="formFile" className="mb-3">
         <Form.Control type="file" onChange={handleImageChange} />
@@ -42,11 +52,11 @@ function SelectImage() {
         </div>
       )}
 
-      <Button className="mt-3" size="sm" variant="outline-primary" onClick={generateJson} >
+      <Button className="mt-3" size="sm" onClick={generateJson} style={{backgroundColor:"#0000FF",border:"1px solid #0000FF", color:"white"}} >
         <PiUploadSimpleBold style={{marginRight:'3px',fontSize:"15px"}}/>
         Uplaod Image
       </Button>
-    </Container>
+    </div>
   );
 }
 

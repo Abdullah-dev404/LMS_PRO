@@ -333,7 +333,7 @@ const Quiz = () => {
 
   return (
     <div
-      className="container"
+      className="container quizBuilderModule"
       style={{
         maxWidth: '1000px',
         backgroundColor: '#FFFFFF',
@@ -579,10 +579,10 @@ const Quiz = () => {
   </div>
 </Card.Body>
           <Card.Footer
-            style={{
-              display: 'flex',
-              justifyContent: 'flex-end'
-            }}
+            // style={{
+            //   display: 'flex',
+            //   justifyContent: 'flex-end'
+            // }}
           >
             <Button
               onClick={() => {
@@ -591,12 +591,10 @@ const Quiz = () => {
               className=" px-5 "
               style={{
                 display: 'flex',
-                gap: '2px',
                 alignContent: 'center',
                 fontWeight: 'bold',
                 backgroundColor: '#0000FF'
               }}
-              size="md"
             >
               Save
             </Button>

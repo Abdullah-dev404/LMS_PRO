@@ -11,7 +11,11 @@
     "prettier": "prettier --write \"src/**/*.{js,jsx,ts,tsx}\""
   },
   "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
     "@hello-pangea/dnd": "^17.0.0",
+    "@mui/material": "^6.3.0",
+    "@mui/styled-engine-sc": "^6.3.0",
     "@originjs/vite-plugin-commonjs": "^1.0.3",
     "@react-google-maps/api": "^2.19.3",
     "@tanem/react-nprogress": "^5.0.51",
@@ -48,6 +52,7 @@
     "react-router-dom": "^7.1.0",
     "react-rte": "^0.16.5",
     "react-toastify": "9.0.3",
+    "styled-components": "^6.1.13",
     "uuid": "^11.0.3",
     "vite": "^5.2.0",
     "vite-jsconfig-paths": "^2.0.1",

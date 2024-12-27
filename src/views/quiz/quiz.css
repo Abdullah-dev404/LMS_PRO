@@ -1,19 +1,17 @@
-/* Target all browsers */
+
 input:focus {
     outline: none !important;
 }
 
-/* Optional: Target specific browsers (if needed) */
-/* Firefox */
+
 input:-moz-focusring {
     outline: none !important;
 }
 .form-control:focus {
     box-shadow: none;
 }
-/* Chrome, Safari, Edge */
 input:focus::-webkit-focus-ring-color {
-    outline-color: transparent !important; /* Transparent outline */
+    outline-color: transparent !important;
 }
 .single-choice:hover{
  background-color: #F3F3FF;
