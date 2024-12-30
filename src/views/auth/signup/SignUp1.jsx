@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Row, Col } from 'react-bootstrap';
+import { Card, Row, Col, Button } from 'react-bootstrap';
 import { NavLink, Link } from 'react-router-dom';
 
 import Breadcrumb from '../../../layouts/AdminLayout/Breadcrumb';
@@ -33,16 +33,19 @@ const SignUp1 = () => {
                   <div className="input-group mb-4">
                     <input type="password" className="form-control" placeholder="Password" />
                   </div>
-                  <div className="form-check  text-start mb-4 mt-2">
+                  {/* <div className="form-check  text-start mb-4 mt-2">
                     <input type="checkbox" className="form-check-input" id="customCheck1" defaultChecked={false} />
                     <label className="form-check-label" htmlFor="customCheck1">
                       Send me the <Link to="#"> Newsletter</Link> weekly.
                     </label>
-                  </div>
-                  <button className="btn btn-primary mb-4">Sign up</button>
+                  </div> */}
+                <div className='d-grid gap-2' >
+                  <Button className="btn btn-primary mb-4" >Sign up</Button>
+                </div>
+              
                   <p className="mb-2">
                     Already have an account?{' '}
-                    <NavLink to={'/auth/signin-1'} className="f-w-400">
+                    <NavLink to={'/auth/signin-1'} className="f-w-400 ">
                       Login
                     </NavLink>
                   </p>

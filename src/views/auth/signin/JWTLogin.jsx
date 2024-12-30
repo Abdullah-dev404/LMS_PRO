@@ -2,6 +2,7 @@ import React from 'react';
 import { Row, Col, Alert, Button } from 'react-bootstrap';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
+import "./SignIn1.css";
 
 const JWTLogin = () => {
   return (
@@ -57,9 +58,9 @@ const JWTLogin = () => {
           )}
 
           <Row>
-            <Col mt={2}>
+            <Col mt={2} className="d-grid gap-2">
               <Button className="btn-block mb-4" color="primary" disabled={isSubmitting} size="large" type="submit" variant="primary">
-                Signin
+                Sign In
               </Button>
             </Col>
           </Row>

@@ -12,9 +12,9 @@ const Signin1 = () => {
   return (
     <React.Fragment>
       <Breadcrumb />
-      <div className="auth-wrapper">
+      <div className="auth-wrapper container">
         <div className="auth-content">
-          <div className="auth-bg">
+          <div className="auth-bg" >
             <span className="r" />
             <span className="r s" />
             <span className="r s" />
@@ -38,7 +38,7 @@ const Signin1 = () => {
                   Signup
                 </NavLink>
               </p>
-              <Alert variant="primary" className="text-start mt-3">
+              {/* <Alert variant="primary" className="text-start mt-3">
                 User:
                 <CopyToClipboard text="info@codedthemes.com">
                   <Button variant="outline-primary" as={Link} to="#" className="badge mx-2 mb-2" size="sm">
@@ -52,7 +52,7 @@ const Signin1 = () => {
                     <i className="fa fa-lock" /> 123456
                   </Button>
                 </CopyToClipboard>
-              </Alert>
+              </Alert> */}
             </Card.Body>
           </Card>
         </div>

@@ -30,3 +30,83 @@ input:focus::-webkit-focus-ring-color {
     color: #514AC9;
     border:1px solid #514AC9
    }
+   .single-choice {
+    display: flex;
+    align-items: center; /* Align the icon and text horizontally by default */
+    justify-content: center;
+    padding: 8px 16px;
+    text-align: center;
+    border-radius: 4px;
+    background-color: #F3F3FF;
+  }
+  
+  .single-choice b {
+    margin-left: 5px; /* Add space between the icon and text */
+  }
+  .multi-choice{
+    margin-left: 5px;
+  }
+  .multi-choice{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 16px;
+    text-align: center;
+    border-radius: 4px;
+    background-color: #F3F3FF;
+  }
+  .text-choice{
+    margin-left: 5px;
+  }
+  .text-choice{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 16px;
+    text-align: center;
+    border-radius: 4px;
+    background-color: #F3F3FF;
+  }
+  
+
+  @media (max-width: 768px) {
+    .single-choice {
+      flex-direction: column; 
+      align-items: center; 
+    }
+  
+    .single-choice b {
+      margin-left: 0; 
+      margin-top: 4px; 
+    }
+  
+    .single-choice svg {
+      margin-right: 0; 
+      margin-bottom: 4px; 
+    }
+    .multi-choice{
+        flex-direction: column;
+        align-items: center;
+    }
+    .multi-choice b{
+        margin-left: 0;
+        margin-top: 4px;
+    }
+    .multi-choice svg{
+        margin-right: 0px;
+        margin-bottom: 4px;
+    }
+    .text-choice{
+        flex-direction: column;
+        align-items: center;
+    }
+    .text-choice b{
+        margin-left: 0;
+        margin-top: 4px;
+    }
+    .text-choice svg{
+        margin-right: 0px;
+        margin-bottom: 4px;
+    }
+
+  }

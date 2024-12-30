@@ -77,6 +77,11 @@ const routes = [
         element: lazy(() => import('./views/templates/templateOne'))
       },
       {
+        exact: 'true',
+        path: '/app/course-content/moduleSection',
+        element: lazy(() => import('./views/moduleSection/ModuleSection'))
+      },
+      {
         path: '*',
         exact: 'true',
         element: () => <Navigate to={BASE_URL} />

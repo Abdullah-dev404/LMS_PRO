@@ -361,7 +361,6 @@ const Quiz = () => {
                 className="single-choice"
                 variant="outline-primary"
                 onClick={() => addQuestion('single_choice')}
-                style={{ backgroundColor: '#F3F3FF', color: '##514AC9' }}
               >
                 <BsRecordCircleFill style={{ marginRight: '4px', marginTop: '-3' }} />
                 <b>Add Single Choice</b>
@@ -370,7 +369,6 @@ const Quiz = () => {
                 className="multi-choice"
                 variant="outline-primary "
                 onClick={() => addQuestion('multi_choice')}
-                style={{ backgroundColor: '#F3F3FF', color: '##514AC9' }}
               >
                 <BiCheckboxSquare style={{ marginRight: '4px', fontSize: '20px', marginTop: '-3' }} />
                 <b>Add Multi Choice </b>
@@ -379,7 +377,6 @@ const Quiz = () => {
                 variant="outline-primary "
                 className="text-choice"
                 onClick={() => addQuestion('text')}
-                style={{ backgroundColor: '#F3F3FF', color: '##514AC9' }}
               >
                 <CiText style={{ marginRight: '4px', fontSize: '20px', marginTop: '-3' }} />
                 <b>Add Text</b>
@@ -446,7 +443,7 @@ const Quiz = () => {
                       }}
                     >
                       <Form.Label as="h5" style={{ fontWeight: 'bold' }}>
-                        Question #{index + 1}
+                        # {index + 1}
                       </Form.Label>
 
                       <div
@@ -474,7 +471,6 @@ const Quiz = () => {
                             onChange={(e) =>
                               updateQuestion(question.id, 'points', parseInt(e.target.value, 10) || 0)
                             }
-                            placeholder="Enter points for this question"
                             style={{ padding: '3px 2px', width: '30px' }}
                           />
                         </Form.Group>
@@ -551,7 +547,7 @@ const Quiz = () => {
           className="single-choice"
           variant="outline-primary"
           onClick={() => addQuestion('single_choice')}
-          style={{ backgroundColor: '#F3F3FF', color: '##514AC9' }}
+          // style={{ backgroundColor: '#F3F3FF', color: '##514AC9' }}
         >
           <BsRecordCircleFill style={{ marginRight: '4px', marginTop: '-3' }} />
           <b>Add Single Choice</b>

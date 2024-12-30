@@ -1,0 +1,14 @@
+.custom-input:focus {
+    outline: none;          /* Removes the default outline */
+    border-color: transparent !important;  /* Removes the blue border */
+    box-shadow: none !important;  /* Removes the blue box-shadow */
+  }
+.form-control {
+    color: black !important;
+}
+
+.form-control:focus {
+  outline: none;         
+  border-color: transparent !important;  
+  box-shadow: none !important;  
+}

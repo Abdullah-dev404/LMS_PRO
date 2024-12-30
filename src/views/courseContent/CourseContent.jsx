@@ -208,7 +208,7 @@ const CourseContent = () => {
                               <b style={{color:"#D92165",cursor:"pointer"}} >Quiz</b>
                             </li>
                           </ul>
-                          <Button variant="outline-primary" onClick={() => handleShow('addActivity', index, module.id)}>
+                          <Button variant="outline-primary" onClick={() => {window.location.href = 'http://localhost:3000/app/course-content/moduleSection'}}>
                             Add Activity
                           </Button>
                           <Button className="addContent_btn"
