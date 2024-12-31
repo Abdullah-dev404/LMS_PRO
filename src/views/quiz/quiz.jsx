@@ -335,7 +335,7 @@ const Quiz = () => {
     <div
       className="container quizBuilderModule"
       style={{
-        maxWidth: '1000px',
+
         backgroundColor: '#FFFFFF',
         height: 'auto',
         padding: '35px',

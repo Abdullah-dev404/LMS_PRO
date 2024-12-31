@@ -34,7 +34,6 @@ function SelectImage() {
     <div
     className="container selectImageModule"
     style={{
-      maxWidth: '1000px',
       backgroundColor: '#FFFFFF',
       height: 'auto',
       padding: '35px',

@@ -1,0 +1,32 @@
+/* Custom scrollbar for overflow areas inside cards */
+.card-body {
+    scrollbar-width: none; /* For Firefox - hides the scrollbar completely */
+    -ms-overflow-style: none; /* For Internet Explorer/Edge (old versions) */
+  }
+  
+  /* For WebKit browsers (Chrome, Safari, Edge) */
+  .card-body::-webkit-scrollbar {
+    width: 10px; /* Width of the scrollbar */
+    background: transparent; /* Transparent background */
+  }
+  
+  .card-body::-webkit-scrollbar-track {
+    background: #f0f0f0; /* Light gray background for the track */
+    border-radius: 10px; /* Fully rounded edges for the track */
+  }
+  
+  .card-body::-webkit-scrollbar-thumb {
+    background: #43C9A2; /* Green scrollbar handle */
+    border-radius: 10px; /* Fully rounded edges for the thumb */
+    border: 2px solid #f0f0f0; /* Adds padding and makes the thumb more visible */
+  }
+  
+  .card-body::-webkit-scrollbar-thumb:hover {
+    background: #3ba087; /* Darker green on hover */
+  }
+  
+  /* Remove arrow buttons (scrollbar buttons) */
+  .card-body::-webkit-scrollbar-button {
+    display: none; /* Hides the up and down arrows */
+  }
+  

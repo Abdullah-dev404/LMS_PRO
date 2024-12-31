@@ -9,8 +9,10 @@ import { CiText } from 'react-icons/ci';
 import Quiz from 'views/quiz/quiz';
 import SelectImage from 'components/SelectImage/selectImage';
 import TextEditor from 'components/TextEditor/texteditor';
+import SelectVideo from 'components/SelectVedio/selectVideo';
+import './templateTwo.css'
 
-function TemplateOne() {
+function TemplateTwo() {
   const [show, setShow] = useState(false);
   const [activityType, setActivityType] = useState("");
   const [boxActivity, setBoxActivity] = useState({});
@@ -31,8 +33,8 @@ function TemplateOne() {
 
   const renderContent = (box) => {
     switch (boxActivity[box]) {
-      case "quiz":
-        return <Quiz />;
+      case "video":
+        return <SelectVideo />;
       case "image":
         return <SelectImage/>
       case "text":
@@ -58,35 +60,18 @@ function TemplateOne() {
     <Container>
       <Row>
         <Col md={6} sm={12}>
-          <Card
-            style={{
-              minHeight: '70vh',
-              // maxHeight:'70vh',
-              borderRadius: '10px',
-              boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px',
-            }}
-          >
-            <Card.Header>
-              <b style={{ color: '#3F4D67', fontSize: '15px' }}>Box One</b>
-            </Card.Header>
-            <Card.Body>{renderContent("box1")}</Card.Body>
-          </Card>
-        </Col>
-
-        {/* ________________________ Col TWO __________________ */}
-        <Col md={6} sm={12}>
             <Card md={12}
               style={{
                 borderRadius: '10px',
                 boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px',
-                minHeight:'32vh',
-     
+                height:'32vh',
+                maxHeight:'32vh'
               }}
             >
               <Card.Header>
                 <b style={{ color: '#3F4D67', fontSize: '15px' }}>Box Two</b>
               </Card.Header>
-              <Card.Body>{renderContent("box2")}</Card.Body>
+              <Card.Body style={{overflow:'auto'}}>{renderContent("box2")}</Card.Body>
             </Card>
    
 
@@ -94,16 +79,33 @@ function TemplateOne() {
               style={{
                 borderRadius: '10px',
                 boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px',
-                minHeight:'33vh',
-            
+                height:'32vh',
+                maxHeight:'32vh'
               }}
             >
               <Card.Header>
                 <b style={{ color: '#3F4D67', fontSize: '15px' }}>Box Three</b>
               </Card.Header>
-              <Card.Body>{renderContent("box3")}</Card.Body>
+              <Card.Body style={{overflow:'auto'}}>{renderContent("box3")}</Card.Body>
             </Card>
 
+        </Col>
+
+
+        <Col md={6} sm={12}>
+          <Card
+            style={{
+              height: '70vh',
+              maxHeight:'70vh',
+              borderRadius: '10px',
+              boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px',
+            }}
+          >
+            <Card.Header>
+              <b style={{ color: '#3F4D67', fontSize: '15px' }}>Box One</b>
+            </Card.Header>
+            <Card.Body style={{overflow:'auto'}} >{renderContent("box1")}</Card.Body>
+          </Card>
         </Col>
       </Row>
 
@@ -125,15 +127,15 @@ function TemplateOne() {
             <Col xs={4} md={4} className="d-flex flex-column align-items-center justify-content-center">
               <div className="d-flex flex-column align-items-center justify-content-center">
                 <MdOutlineQuiz
-                  onClick={() => saveActivityType('quiz')}
+                  onClick={() => saveActivityType('video')}
                   style={{ fontSize: '30px', color: '#D92165', cursor: 'pointer' }}
                 />
                 <div>
                   <b
-                    onClick={() => saveActivityType('quiz')}
+                    onClick={() => saveActivityType('video')}
                     style={{ color: '#D92165', fontSize: '15px', cursor: 'pointer' }}
                   >
-                    Quiz
+                    Video
                   </b>
                 </div>
               </div>
@@ -182,4 +184,4 @@ function TemplateOne() {
   );
 }
 
-export default TemplateOne;
+export default TemplateTwo;

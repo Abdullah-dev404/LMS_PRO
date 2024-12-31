@@ -36,7 +36,6 @@ function ContentEditor() {
   return (
     <div className='container textEditorModule'
     style={{
-      maxWidth: '1000px',
       backgroundColor: '#FFFFFF',
       height: 'auto',
       padding: '35px',

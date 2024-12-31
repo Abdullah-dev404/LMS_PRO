@@ -68,13 +68,13 @@ const routes = [
       },
       {
         exact: 'true',
-        path: '/app/courseContent/defaultTemplate',
-        element: lazy(() => import('./views/templates/Config/defaultTemplate/defaultTemplate'))
+        path: '/app/courseContent/uploadVideo',
+        element: lazy(() => import('./components/SelectVedio/selectVideo'))
       },
       {
         exact:'true',
-        path:'/app/contentEditor/templateOne',
-        element: lazy(() => import('./views/templates/templateOne'))
+        path:'/app/curseContent/selectTemplate',
+        element: lazy(() => import('./views/templates/defaultTemplate/defaultTemplate'))
       },
       {
         exact: 'true',

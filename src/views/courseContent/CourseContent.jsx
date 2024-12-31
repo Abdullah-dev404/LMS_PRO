@@ -9,12 +9,16 @@ import { MdOndemandVideo } from 'react-icons/md';
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
 import { MdModeEdit } from 'react-icons/md';
 import { MdOutlineCreateNewFolder } from "react-icons/md";
+import { MdOutlineTopic } from "react-icons/md";
 import './CourseContent.css';
 import { useLocation } from 'react-router-dom';
 import modules from '../questions/config/modules.json';
 import { useToast } from 'react-toastify';
 const CourseContent = () => {
   const [moduleList, setModuleList] = useState([]);
+  
+  const topic =[{topicName:'start with basic'}]
+  
   const useQuery = () => {
     return new URLSearchParams(useLocation().search);
   };
@@ -177,47 +181,20 @@ const CourseContent = () => {
                         </Accordion.Header>
                         <Accordion.Body>
                           <ul className="activity-list">
-                            {module?.activities?.map((activity, idx) => (
-                              <li
-                                key={idx}
-                                className="mb-2"
-                                style={{
-                                  fontSize: '1.1rem',
-                                  cursor: 'pointer',
-                                  background: 'transparent',
-                                  color:
-                                    activity.title === 'Quiz'
-                                      ? '#D92165'
-                                      : activity.title === 'Assignment'
-                                        ? '#9217CB'
-                                        : activity.title === 'Videos'
-                                          ? '#D3291C'
-                                          : 'black'
-                                }}
-                              >
-                                {/* {activity.title === 'Quiz' && <MdOutlineQuiz />}
-                                {activity.title === 'Assignment' && <IoDocumentTextOutline />}
-                                {activity.title === 'Videos' && <MdOndemandVideo />} */}
-                                <MdOutlineQuiz />
-                                <b>Quiz</b>
-                              </li>
-                            ))}
-
-                            <li>
-                              <MdOutlineQuiz style={{color:"#D92165",cursor:"pointer"}}/>
-                              <b style={{color:"#D92165",cursor:"pointer"}} >Quiz</b>
+                            <li className='mt-3'>
+                            <MdOutlineTopic style={{cursor:"pointer", marginTop:"-3px"}} />
+                              <b style={{cursor:"pointer"}}>Topic Name</b>
+                            </li>
+                            <li className='mt-3'>
+                            <MdOutlineTopic style={{cursor:"pointer", marginTop:"-3px"}} />
+                              <b style={{cursor:"pointer"}}>Topic Name</b>
                             </li>
                           </ul>
-                          <Button variant="outline-primary" onClick={() => {window.location.href = 'http://localhost:3000/app/course-content/moduleSection'}}>
+                          <Button variant="outline-primary" onClick={() => {window.location.href = 'http://localhost:3000/app/courseContent/uploadVideo'}}>
                             Add Activity
                           </Button>
                           <Button className="addContent_btn"
-                          // style={{
-                          //   backgroundColor:"transparent",
-                          //   color:"#0000FF",
-                          //   border:"1px solid #0000FF"
-                          // }} 
-                          onClick={()=>{window.location.href = '/app/courseContent/defaultTemplate'}}
+                          onClick={()=>{window.location.href = 'http://localhost:3000/app/curseContent/selectTemplate'}}
                           >
                            Add Content
                           </Button>

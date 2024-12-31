@@ -1,17 +1,17 @@
-import React, { useState } from 'react';
+import React,{useState} from 'react';
+import { Container, Row, Col, Card, Button, Modal } from 'react-bootstrap';
 import { IoIosAddCircle } from 'react-icons/io';
-import { Button, Col, Container, Row } from 'react-bootstrap';
-import Modal from 'react-bootstrap/Modal';
-import Card from 'react-bootstrap/Card';
 import { MdOutlineQuiz } from 'react-icons/md';
 import { FaRegImage } from 'react-icons/fa';
 import { CiText } from 'react-icons/ci';
 import Quiz from 'views/quiz/quiz';
 import SelectImage from 'components/SelectImage/selectImage';
 import TextEditor from 'components/TextEditor/texteditor';
+import SelectVideo from 'components/SelectVedio/selectVideo';
+import { MdOutlineVideoLibrary } from 'react-icons/md';
 
-function TemplateTwo() {
-  const [show, setShow] = useState(false);
+function TemplateFour() {
+    const [show, setShow] = useState(false);
   const [activityType, setActivityType] = useState("");
   const [boxActivity, setBoxActivity] = useState({});
 
@@ -31,8 +31,8 @@ function TemplateTwo() {
 
   const renderContent = (box) => {
     switch (boxActivity[box]) {
-      case "quiz":
-        return <Quiz />;
+      case "video":
+        return <SelectVideo/>;
       case "image":
         return <SelectImage/>
       case "text":
@@ -53,64 +53,71 @@ function TemplateTwo() {
         );
     }
   };
-
   return (
     <Container>
       <Row>
-
-        {/* ________________________ Col TWO __________________ */}
-        <Col md={6} sm={12}>
-            <Card md={12}
-              style={{
-                borderRadius: '10px',
-                boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px',
-                minHeight:'32vh',
-     
-              }}
-            >
-              <Card.Header>
-                <b style={{ color: '#3F4D67', fontSize: '15px' }}>Box Two</b>
-              </Card.Header>
-              <Card.Body>{renderContent("box2")}</Card.Body>
-            </Card>
-   
-
-            <Card md={12}
-              style={{
-                borderRadius: '10px',
-                boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px',
-                minHeight:'33vh',
-            
-              }}
-            >
-              <Card.Header>
-                <b style={{ color: '#3F4D67', fontSize: '15px' }}>Box Three</b>
-              </Card.Header>
-              <Card.Body>{renderContent("box3")}</Card.Body>
-            </Card>
-
-        </Col>
-
-
-        <Col md={6} sm={12}>
+        <Col sm={12} md={4}>
           <Card
             style={{
-              minHeight: '70vh',
-              // maxHeight:'70vh',
+              height: '50vh',
+              maxHeight:'50vh',
               borderRadius: '10px',
               boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px',
             }}
           >
-            <Card.Header>
-              <b style={{ color: '#3F4D67', fontSize: '15px' }}>Box One</b>
+            <Card.Header className='cardHeader'>
+              <b >Box One</b>
             </Card.Header>
-            <Card.Body>{renderContent("box1")}</Card.Body>
+            <Card.Body
+             style={{
+              overflowY: 'auto', 
+            }}
+            >{renderContent("box1")}</Card.Body>
+          </Card>
+        </Col>
+
+        <Col sm={12} md={4}>
+        <Card
+            style={{
+              height: '50vh',
+              maxHeight:'50vh',
+              borderRadius: '10px',
+              boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px',
+            }}
+          >
+            <Card.Header className='cardHeader'>
+              <b >Box Two</b>
+            </Card.Header>
+            <Card.Body
+             style={{
+              overflowY: 'auto', 
+            }}
+            >{renderContent("box2")}</Card.Body>
+          </Card>
+        </Col>
+
+        <Col sm={12} md={4}>
+          <Card
+            style={{
+              height: '50vh',
+              maxHeight:'50vh',
+              borderRadius: '10px',
+              boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px',
+            }}
+          >
+            <Card.Header className='cardHeader'>
+              <b >Box Three</b>
+            </Card.Header>
+            <Card.Body
+             style={{
+              overflowY: 'auto', 
+            }}
+            >{renderContent("box3")}</Card.Body>
           </Card>
         </Col>
       </Row>
 
-      {/* ----------------------Modal--------------------- */}
-
+      {/* --------------------------------Modal-------------------- */}
       <Modal
         show={show}
         onHide={handleClose}
@@ -126,16 +133,16 @@ function TemplateTwo() {
           <Row className="activities">
             <Col xs={4} md={4} className="d-flex flex-column align-items-center justify-content-center">
               <div className="d-flex flex-column align-items-center justify-content-center">
-                <MdOutlineQuiz
-                  onClick={() => saveActivityType('quiz')}
+                <MdOutlineVideoLibrary
+                  onClick={() => saveActivityType('video')}
                   style={{ fontSize: '30px', color: '#D92165', cursor: 'pointer' }}
                 />
                 <div>
                   <b
-                    onClick={() => saveActivityType('quiz')}
+                    onClick={() => saveActivityType('video')}
                     style={{ color: '#D92165', fontSize: '15px', cursor: 'pointer' }}
                   >
-                    Quiz
+                    Video
                   </b>
                 </div>
               </div>
@@ -184,4 +191,4 @@ function TemplateTwo() {
   );
 }
 
-export default TemplateTwo;
+export default TemplateFour;
