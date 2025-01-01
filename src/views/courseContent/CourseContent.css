@@ -78,3 +78,7 @@
   color: white;
   background-color: #0000FF;
 }
+Form.Control:focus{
+  outline: none;
+  border: 2px sold black;
+}

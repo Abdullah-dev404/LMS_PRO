@@ -1,100 +1,84 @@
-/* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, { useState, useEffect } from 'react';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import { Container, Row, Col, Button, Accordion, Card } from 'react-bootstrap';
-import { IoDocumentTextOutline } from 'react-icons/io5';
-import { MdOutlineQuiz } from 'react-icons/md';
-import { MdOndemandVideo } from 'react-icons/md';
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
 import { MdModeEdit } from 'react-icons/md';
-import { MdOutlineCreateNewFolder } from "react-icons/md";
-import { MdOutlineTopic } from "react-icons/md";
+import { MdOutlineCreateNewFolder, MdOutlineTopic } from 'react-icons/md';
 import './CourseContent.css';
 import { useLocation } from 'react-router-dom';
-import modules from '../questions/config/modules.json';
-import { useToast } from 'react-toastify';
+import modules from '../../config/module.json';
+import { v4 as uuidv4 } from 'uuid';
+
+
+
 const CourseContent = () => {
   const [moduleList, setModuleList] = useState([]);
-  
-  const topic =[{topicName:'start with basic'}]
-  
-  const useQuery = () => {
-    return new URLSearchParams(useLocation().search);
-  };
-  const query = useQuery();
-  const course_id = query.get('courseId');
-
-  const [activeKeys, setActiveKeys] = useState(moduleList.map((_, index) => index.toString()));
+  const [activeKeys, setActiveKeys] = useState([]);
   const [show, setShow] = useState(false);
   const [modalType, setModalType] = useState('');
   const [selectedModuleIndex, setSelectedModuleIndex] = useState(null);
   const [newModuleName, setNewModuleName] = useState('');
   const [editingIndex, setEditingIndex] = useState(null);
   const [moduleId, setModuleId] = useState('');
-  const [quizData, setQuizData] = useState([]);
+  const [sectionName, setSectionName] = useState('');
+  const [sectionList, setSectionList] = useState([]);
 
-  const storedData = localStorage.getItem('quiz');
-  const parsedData = JSON.parse(storedData);
-  // setQuizData(parsedData)
-  // console.log(quizData)
-
-  // const getDataFromLocalStorage = () => {
-  //   const storedData = localStorage.getItem("quiz")
-  //   if (storedData) {
-  //     try {
-  //        const parsedData = JSON.parse(storedData)
-  //       // setQuizData(parsedData);
-
-  //     } catch (error) {
-  //       console.error('Error parsing JSON data from localStorage:', error);
-  //       return null;
-  //     }
-  //   } else {
-  //     console.log('No data found in localStorage for the given key.');
-  //     return null;
-  //   }
-  // };
-
-  // const formData = getDataFromLocalStorage();
+  const useQuery = () => new URLSearchParams(useLocation().search);
+  const query = useQuery();
+  const course_id = query.get('courseId');
 
   useEffect(() => {
-    const filteredModules = course_id ? modules?.filter((module) => module.course_id === course_id) : [];
+    const filteredModules = course_id ? modules.filter((module) => module.course_id === course_id) : [];
     setModuleList(filteredModules);
+    setActiveKeys(filteredModules.map((_, index) => index.toString()));
   }, [course_id]);
-
+  
   const handleClose = () => {
     setShow(false);
     setModalType('');
     setSelectedModuleIndex(null);
     setNewModuleName('');
+    setSectionName('');
   };
 
-  const handleShow = (type, moduleIndex = null, module_id) => {
-    setModuleId(module_id);
+  const handleShow = (type, moduleIndex = null, module_id = null) => {
     setModalType(type);
     setSelectedModuleIndex(moduleIndex);
+    setModuleId(module_id);
     setShow(true);
   };
 
   const handleAddModule = () => {
     if (newModuleName.trim() !== '') {
-      const updatedModules = [...moduleList, { title: newModuleName, activities: [] }];
+      const newModule = {
+        id: uuidv4(),
+        course_id: course_id,
+        title: newModuleName,
+        type: 'module',
+      };
+      const updatedModules = [...moduleList, newModule];
       setModuleList(updatedModules);
-      setActiveKeys([...activeKeys, moduleList.length.toString()]);
+      setActiveKeys((prevKeys) => [...prevKeys, (updatedModules.length - 1).toString()]);
       handleClose();
     }
   };
 
-  const handleAddActivity = (activityType) => {
-    if (selectedModuleIndex !== null) {
-      const updatedModules = [...moduleList];
-      updatedModules[selectedModuleIndex].activities.push({ title: activityType });
-      setModuleList(updatedModules);
+  const handleAddSection = () => {
+    if (sectionName.trim() !== '') {
+      const newSection = {
+        id: uuidv4(),
+        moduleId: moduleId,  
+        section_name: sectionName,
+        type:"section"
+      };
+      console.log('New Section:',newSection)
+      const updatedSections = [...sectionList, newSection];
+      setSectionList(updatedSections);
       handleClose();
     }
   };
-
+  
   const onDragEnd = (result) => {
     const { source, destination } = result;
 
@@ -131,17 +115,13 @@ const CourseContent = () => {
     setEditingIndex(null);
   };
 
-  // eslint-disable-next-line no-unused-vars
-  const addQuiz = () => {
-    window.location.href = `http://localhost:3000/app/course-content/quiz?moduleId=${moduleId}`;
-  };
   return (
     <Container fluid className="p-0">
       <Row>
         <Col className="text-end">
           <Button variant="outline-primary" onClick={() => handleShow('addModule')}>
             <i className="feather icon-plus" />
-            Add module
+            Add Module
           </Button>
         </Col>
       </Row>
@@ -169,7 +149,7 @@ const CourseContent = () => {
                               style={{
                                 width: '100%',
                                 border: 'none',
-                                padding: '2px'
+                                padding: '2px',
                               }}
                             />
                           ) : (
@@ -180,24 +160,21 @@ const CourseContent = () => {
                           )}
                         </Accordion.Header>
                         <Accordion.Body>
-                          <ul className="activity-list">
-                            <li className='mt-3'>
-                            <MdOutlineTopic style={{cursor:"pointer", marginTop:"-3px"}} />
-                              <b style={{cursor:"pointer"}}>Topic Name</b>
-                            </li>
-                            <li className='mt-3'>
-                            <MdOutlineTopic style={{cursor:"pointer", marginTop:"-3px"}} />
-                              <b style={{cursor:"pointer"}}>Topic Name</b>
+                          {sectionList.map((sectionIndex,section)=>(
+                            <ul className="activity-list" key={sectionIndex}>
+                            <li className="mt-3">
+                              <MdOutlineTopic style={{ cursor: 'pointer', marginTop: '-3px' }} />
+                              <b style={{ cursor: 'pointer' }}>{section?.section_name}</b>
                             </li>
                           </ul>
-                          <Button variant="outline-primary" onClick={() => {window.location.href = 'http://localhost:3000/app/courseContent/uploadVideo'}}>
-                            Add Activity
-                          </Button>
-                          <Button className="addContent_btn"
-                          onClick={()=>{window.location.href = 'http://localhost:3000/app/curseContent/selectTemplate'}}
+                          ))}
+                          <Button
+                            variant="outline-primary"
+                            onClick={() => handleShow('addSection', index, module.id)}
                           >
-                           Add Content
+                            Add Section
                           </Button>
+                          
                         </Accordion.Body>
                       </Accordion.Item>
                     </Card>
@@ -218,8 +195,8 @@ const CourseContent = () => {
           </Modal.Header>
           <Modal.Body>
             <Form>
-              <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                <Form.Label className="module_name text-black">Module name</Form.Label>
+              <Form.Group className="mb-3" controlId="moduleName">
+                <Form.Label className="module_name text-black">Module Name</Form.Label>
                 <Form.Control
                   type="text"
                   placeholder="Enter module name"
@@ -238,61 +215,29 @@ const CourseContent = () => {
         </Modal>
       )}
 
-      {/* Add Activity Modal */}
-      {modalType === 'addActivity' && (
-        <Modal
-          show={show}
-          onHide={handleClose}
-          className="add-activity-module"
-          size="lg"
-          aria-labelledby="contained-modal-title-vcenter"
-          centered
-        >
+      {/* Add Section Modal */}
+      {modalType === 'addSection' && (
+        <Modal show={show} onHide={handleClose}>
           <Modal.Header closeButton>
-            <Modal.Title className="activity-title">Add Activity</Modal.Title>
+            <Modal.Title>Add Section</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <Row className="activities">
-              <Col
-                xs={4}
-                md={4}
-                className="d-flex flex-column align-items-center justify-content-center "
-                onClick={() => handleAddActivity('Quiz')}
-              >
-                <div onClick={() => addQuiz()}>
-                  <MdOutlineQuiz className="quiz_icon" />
-                  <div className="quiz">
-                    <b>Quiz</b>
-                  </div>
-                </div>
-              </Col>
-              <Col
-                xs={4}
-                md={4}
-                className="d-flex flex-column align-items-center justify-content-center"
-                onClick={() => handleAddActivity('Assignment')}
-              >
-                <IoDocumentTextOutline className="assignment-icon" />
-                <div className="assignment">
-                  <b>Assignment</b>
-                </div>
-              </Col>
-              <Col
-                xs={4}
-                md={4}
-                className="d-flex flex-column align-items-center justify-content-center"
-                onClick={() => handleAddActivity('Videos')}
-              >
-                <MdOndemandVideo className="video-icon" />
-                <div className="video">
-                  <b>Video</b>
-                </div>
-              </Col>
-            </Row>
+            <Form>
+              <Form.Group className="mb-3" controlId="sectionName">
+                <Form.Label>Section Name</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Enter section name"
+                  value={sectionName}
+                  onChange={(e) => setSectionName(e.target.value)}
+                  autoFocus
+                />
+              </Form.Group>
+            </Form>
           </Modal.Body>
           <Modal.Footer>
-            <Button className="close-button" onClick={handleClose}>
-              Close
+            <Button variant="primary" onClick={handleAddSection}>
+              Save
             </Button>
           </Modal.Footer>
         </Modal>
