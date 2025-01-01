@@ -160,7 +160,7 @@ const CourseContent = () => {
                           )}
                         </Accordion.Header>
                         <Accordion.Body>
-                          {sectionList.map((sectionIndex,section)=>(
+                          {sectionList.map((section,sectionIndex)=>(
                             <ul className="activity-list" key={sectionIndex}>
                             <li className="mt-3">
                               <MdOutlineTopic style={{ cursor: 'pointer', marginTop: '-3px' }} />
