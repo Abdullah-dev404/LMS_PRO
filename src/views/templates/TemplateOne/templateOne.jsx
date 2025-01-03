@@ -32,6 +32,17 @@ function TemplateOne() {
     handleClose();
   };
 
+  const generateJSON = () => {
+    const jsonData = Object.keys(boxActivity).map((box) => ({
+      box,
+      activityType: boxActivity[box],
+      templateName:'templateOne',
+
+    }));
+    console.log('Generated JSON:', JSON.stringify(jsonData, null, 2));
+    return jsonData;
+  };
+
   const renderContent = (box) => {
     switch (boxActivity[box]) {
       case 'video':
@@ -128,6 +139,13 @@ function TemplateOne() {
           </Card>
         </Col>
       </Row>
+
+      <Button
+        onClick={generateJSON}
+        style={{ marginTop: '20px', backgroundColor: '#43C9A2' }}
+      >
+        Generate JSON
+      </Button>
 
       {/* ----------------------Modal--------------------- */}
 

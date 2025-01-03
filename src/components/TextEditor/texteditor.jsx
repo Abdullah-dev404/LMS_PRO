@@ -6,15 +6,18 @@ import './textEditor.css';
 import { Button } from 'react-bootstrap';
 import { stateToHTML } from 'draft-js-export-html';
 import { v4 as uuidv4 } from 'uuid'; 
-
+import { useLocation } from 'react-router';
+import contentJSON from '../../config/content.json'
 function ContentEditor() {
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
   
+  const useQuery = () => new URLSearchParams(useLocation().search)
+  const Query = useQuery()
+  const section_id = Query.get('sectionId')
 
   const handleEditorStateChange = (newEditorState) => {
     setEditorState(newEditorState);
   };
-
 
   const getData = () => {
  
@@ -25,9 +28,9 @@ function ContentEditor() {
     const contentHTML = stateToHTML(editorState.getCurrentContent());
 
     const data = {
-      id: uuidv4(),  
+      textId: uuidv4(),  
+      sectionId:section_id,
       content: contentHTML,  
-      createdOn: new Date().toISOString(), 
     };
 
     console.log(data); 

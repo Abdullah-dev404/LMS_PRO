@@ -1,11 +1,16 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { CardBody, CardFooter, CardTitle, Container, Card, Button, Form } from 'react-bootstrap';
 import { PiUploadSimpleBold } from 'react-icons/pi';
+import { useLocation } from 'react-router';
+import { v4 as uuidv4 } from 'uuid';
 const VideoUploader = () => {
   const [selectedVideo, setSelectedVideo] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
   const [uploadStatus, setUploadStatus] = useState('');
-
+ 
+  const useQuery = () => new URLSearchParams(useLocation().search)
+  const Query = useQuery()
+  const section_id = Query.get('sectionId')
   const handleVideoSelect = (event) => {
     const file = event.target.files[0];
     if (file && file.type.startsWith('video/')) {
@@ -14,7 +19,23 @@ const VideoUploader = () => {
     } else {
       alert('Please select a valid video file.');
     }
-  };
+  };  
+  const generateJson = () => {
+    if (!selectedVideo) {
+      alert("Please select an vedio before saving!");
+      return;
+    }
+    const jsonData = [
+      {
+        vedioId: uuidv4(), 
+        sectionId:section_id,
+        vedioURL:previewUrl
+      },
+    ];
+}
+
+
+  
 
   //   const handleUpload = async () => {
   //     if (!selectedVideo) {

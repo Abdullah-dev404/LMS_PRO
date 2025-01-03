@@ -104,10 +104,6 @@ function TemplateThree() {
         onClose={handleClose}
         TransitionComponent={Fade}
       >
-        <MenuItem onClick={() => addComponent('quiz')}>
-          <MdOutlineQuiz style={{ marginRight: '5px' }} />
-          <b>Quiz</b>
-        </MenuItem>
 
         <MenuItem onClick={() => addComponent('image')}>
           <FaImage style={{ marginRight: '5px' }} />

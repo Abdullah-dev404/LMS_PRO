@@ -63,18 +63,18 @@ const routes = [
       },
       {
         exact: 'true',
-        path: '/app/course-content/quiz',
+        path: '/app/course-content/section/quiz',
         element: lazy(() => import('./views/quiz/quiz'))
+      },
+      {
+        exact:'true',
+        path:'/app/curseContent/section/selectTemplate',
+        element: lazy(() => import('./views/templates/defaultTemplate/defaultTemplate'))
       },
       {
         exact: 'true',
         path: '/app/courseContent/uploadVideo',
         element: lazy(() => import('./components/SelectVedio/selectVideo'))
-      },
-      {
-        exact:'true',
-        path:'/app/curseContent/selectTemplate',
-        element: lazy(() => import('./views/templates/defaultTemplate/defaultTemplate'))
       },
       {
         exact: 'true',

@@ -4,11 +4,11 @@ import { HiTemplate } from 'react-icons/hi';
 import LayoutOne from '../../../assets/images/template/templateOne.png';
 import LayoutTwo from '../../../assets/images/template/templateTwo.png';
 import LayoutThree from '../../../assets/images/template/templateThree.png';
-import LayoutFour from '../../../assets/images/template/TemplateFour.png'
+import LayoutFour from '../../../assets/images/template/TemplateFour.png';
 import TemplateOne from '../TemplateOne/templateOne';
 import TemplateTwo from '../TemplateTwo/templateTwo';
 import TemplateThree from '../TemplateThree/templateThree';
-import TemplateFour  from '../TemplateFour/templateFour';
+import TemplateFour from '../TemplateFour/templateFour';
 import TemplateOneSS from '../../../assets/images/template/TemplateOneSS.png';
 import TemplateTwoSS from '../../../assets/images/template/TemplateTwoSS.png';
 import TemplateThreeSS from '../../../assets/images/template/TemplateThreeSS.png';
@@ -18,10 +18,12 @@ function DefaultTemplate() {
   const [showButton, setShowButton] = useState(false);
   const [selectedLayouts, setSelectedLayouts] = useState([]);
   const [hoverButton, setHoverButton] = useState('');
+  const [showSaveButton, setShowSaveButton] = useState(false);
 
   const handleTemplateSelection = (template) => {
     setSelectedLayouts((prevLayouts) => [...prevLayouts, template]);
     setShowButton(false);
+    setShowSaveButton(true)
     setHoverButton('');
   };
 
@@ -35,7 +37,7 @@ function DefaultTemplate() {
         case 'templateThree':
           return <TemplateThree key={index} />;
         case 'templateFour':
-          return <TemplateFour/>
+          return <TemplateFour />;
         default:
           return null;
       }
@@ -196,7 +198,14 @@ function DefaultTemplate() {
             }}
           />
         </div>
-      )}      
+      )}
+      {showSaveButton && (
+        <div>
+          <Button variant="primary" style={{ color: 'white', backgroundColor: '#514AC9', outline: 'none', border: 'none' }}>
+            save Template
+          </Button>
+        </div>
+      )}
     </Container>
   );
 }

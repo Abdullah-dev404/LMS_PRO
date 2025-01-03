@@ -1,12 +1,17 @@
 import React, { useState } from 'react';
 import { Button, Card, CardBody, CardHeader, Container, Form } from 'react-bootstrap';
 import { PiUploadSimpleBold } from 'react-icons/pi';
+import { useLocation } from 'react-router';
 
 
 function SelectImage() {
   const [selectedImage, setSelectedImage] = useState(null);
   const [preview, setPreview] = useState(null);
   const [imageData,SetImageData] = useState([])
+
+  const useQuery = () => new URLSearchParams(useLocation().search)
+  const Query = useQuery()
+  const section_id = Query.get('sectionId')
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -22,7 +27,8 @@ function SelectImage() {
     }
     const jsonData = [
       {
-        id: new Date().getTime().toString(), 
+        imageId: new Date().getTime().toString(), 
+        sectionId:section_id,
         imageName: selectedImage.name,
         imageSize: `${(selectedImage.size / 1024).toFixed(2)}KB`,
         uploadTime: new Date().toLocaleTimeString(),

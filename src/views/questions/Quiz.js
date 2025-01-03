@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Button, Card, Form, InputGroup, Col, Row } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
@@ -9,8 +9,8 @@ import { CiText } from 'react-icons/ci';
 import { MdDelete } from 'react-icons/md';
 import { IoMdAdd } from 'react-icons/io';
 import { IoMdAddCircle } from 'react-icons/io';
-import { typeConfig } from './type';
 import '../quiz/quiz.css';
+import { v4 as uuidv4 } from 'uuid';
 // import { format } from 'date-fns';
 const Quiz = () => {
   const [questions, setQuestions] = useState([]);
@@ -21,21 +21,14 @@ const Quiz = () => {
   const [showQuestionButtons, setShowQuestionButton] = useState(false);
   const [oneTimeAppears, setOneTimeAppears] = useState(true);
 
+  
+    const useQuery = () => new URLSearchParams(useLocation().search);
+    const query = useQuery();
+    const section_id = query.get('sectionId');
+
   const toggleShowQuestionButton = () => {
     setShowQuestionButton(!showQuestionButtons);
   };
-
-  const useQuery = () => {
-    return new URLSearchParams(useLocation().search);
-  };
-  const query = useQuery();
-  const module_id = query.get('moduleId');
-
-  //   useEffect(() => {
-  //     const filteredSections = module_id ? sections?.filter((section) => section.module_id === selectedModule.id) : [];
-  //     setSelectedModule(filteredSections);
-  //   }, [module_id]);
-
   // Add a new question with default settings
   const addQuestion = (type) => {
     const defaultQuestionText = {
@@ -243,24 +236,6 @@ const Quiz = () => {
     }
   };
 
-  // Generate JSON
-  // const generateJSON = () => {
-  //     const formattedQuestions = questions.map((q) => ({
-  //         id: q.id,
-  //         type: q.type,
-  //         question: q.question,
-  //         options: q.options,
-  //         points: q.points,
-  //         answer:
-  //             q.type === 'single_choice'
-  //                 ? { optionId: q.answer + 1, optionText: q.options[q.answer] }
-  //                 : q.type === 'multi_choice'
-  //                 ? q.answer.map((i) => ({ optionId: i + 1, optionText: q.options[i] }))
-  //                 : q.answer
-  //     }));
-  //     console.log(formattedQuestions);
-  // };
-
   const generateJSON = (questions, startDate, endDate, title) => {
     if (!Array.isArray(questions)) {
       console.error('Invalid input: questions must be an array.');
@@ -281,6 +256,8 @@ const Quiz = () => {
             : q.answer
     }));
 
+    console.log('Formated Questions',formattedQuestions)
+
     for (const question of formattedQuestions) {
       if (question.type === 'text' && (!question.answer || question.answer.trim() === '')) {
         toast.error(`Text question "${question.question}" has an empty answer.`);
@@ -297,14 +274,13 @@ const Quiz = () => {
     }
 
     const quizData = {
+      id:uuidv4(),
+      sectionId:section_id,
       title: title,
-      start_time: startDate,
-      end_time: endDate,
       type: 'quiz',
-      id: `quiz-${Date.now()}`,
-      module_id: module_id,
       quiz: formattedQuestions
     };
+    console.log(quizData)
 
     const storedQuizzes = JSON.parse(localStorage.getItem('quiz')) || [];
     storedQuizzes.push(quizData);
@@ -334,9 +310,9 @@ const Quiz = () => {
 
   return (
     <div
-      className="container"
+      className="container quizBuilderModule"
       style={{
-        maxWidth: '1000px',
+
         backgroundColor: '#FFFFFF',
         height: 'auto',
         padding: '35px',
@@ -362,7 +338,6 @@ const Quiz = () => {
                 className="single-choice"
                 variant="outline-primary"
                 onClick={() => addQuestion('single_choice')}
-                style={{ backgroundColor: '#F3F3FF', color: '##514AC9' }}
               >
                 <BsRecordCircleFill style={{ marginRight: '4px', marginTop: '-3' }} />
                 <b>Add Single Choice</b>
@@ -371,7 +346,6 @@ const Quiz = () => {
                 className="multi-choice"
                 variant="outline-primary "
                 onClick={() => addQuestion('multi_choice')}
-                style={{ backgroundColor: '#F3F3FF', color: '##514AC9' }}
               >
                 <BiCheckboxSquare style={{ marginRight: '4px', fontSize: '20px', marginTop: '-3' }} />
                 <b>Add Multi Choice </b>
@@ -380,7 +354,6 @@ const Quiz = () => {
                 variant="outline-primary "
                 className="text-choice"
                 onClick={() => addQuestion('text')}
-                style={{ backgroundColor: '#F3F3FF', color: '##514AC9' }}
               >
                 <CiText style={{ marginRight: '4px', fontSize: '20px', marginTop: '-3' }} />
                 <b>Add Text</b>
@@ -447,7 +420,7 @@ const Quiz = () => {
                       }}
                     >
                       <Form.Label as="h5" style={{ fontWeight: 'bold' }}>
-                        Question #{index + 1}
+                        # {index + 1}
                       </Form.Label>
 
                       <div
@@ -475,7 +448,6 @@ const Quiz = () => {
                             onChange={(e) =>
                               updateQuestion(question.id, 'points', parseInt(e.target.value, 10) || 0)
                             }
-                            placeholder="Enter points for this question"
                             style={{ padding: '3px 2px', width: '30px' }}
                           />
                         </Form.Group>
@@ -552,7 +524,7 @@ const Quiz = () => {
           className="single-choice"
           variant="outline-primary"
           onClick={() => addQuestion('single_choice')}
-          style={{ backgroundColor: '#F3F3FF', color: '##514AC9' }}
+          // style={{ backgroundColor: '#F3F3FF', color: '##514AC9' }}
         >
           <BsRecordCircleFill style={{ marginRight: '4px', marginTop: '-3' }} />
           <b>Add Single Choice</b>
@@ -580,10 +552,10 @@ const Quiz = () => {
   </div>
 </Card.Body>
           <Card.Footer
-            style={{
-              display: 'flex',
-              justifyContent: 'flex-end'
-            }}
+            // style={{
+            //   display: 'flex',
+            //   justifyContent: 'flex-end'
+            // }}
           >
             <Button
               onClick={() => {
@@ -592,12 +564,10 @@ const Quiz = () => {
               className=" px-5 "
               style={{
                 display: 'flex',
-                gap: '2px',
                 alignContent: 'center',
                 fontWeight: 'bold',
                 backgroundColor: '#0000FF'
               }}
-              size="md"
             >
               Save
             </Button>

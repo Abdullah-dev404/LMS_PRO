@@ -1,0 +1,20 @@
+{
+    "contentId":"",
+    "sectionId":"",
+    "template":{
+        "templateOne":{
+            "templateId":"",
+            "boxes":{
+                "boxOne":{
+                    "content":""
+                },
+                "boxTwo":{
+                    "content":""
+                },
+                "boxThree":{
+                    "content":""
+                }
+            }
+        }
+    }
+}

@@ -4,13 +4,12 @@ import Modal from 'react-bootstrap/Modal';
 import { Container, Row, Col, Button, Accordion, Card } from 'react-bootstrap';
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
 import { MdModeEdit } from 'react-icons/md';
-import { MdOutlineCreateNewFolder, MdOutlineTopic } from 'react-icons/md';
+import { MdOutlineTopic, MdQuiz } from 'react-icons/md';
+import { BiSolidBookContent } from 'react-icons/bi';
 import './CourseContent.css';
 import { useLocation } from 'react-router-dom';
 import modules from '../../config/module.json';
 import { v4 as uuidv4 } from 'uuid';
-
-
 
 const CourseContent = () => {
   const [moduleList, setModuleList] = useState([]);
@@ -23,6 +22,7 @@ const CourseContent = () => {
   const [moduleId, setModuleId] = useState('');
   const [sectionName, setSectionName] = useState('');
   const [sectionList, setSectionList] = useState([]);
+  const [selectedSectionId, setSelectedSectionId] = useState('');
 
   const useQuery = () => new URLSearchParams(useLocation().search);
   const query = useQuery();
@@ -33,7 +33,7 @@ const CourseContent = () => {
     setModuleList(filteredModules);
     setActiveKeys(filteredModules.map((_, index) => index.toString()));
   }, [course_id]);
-  
+
   const handleClose = () => {
     setShow(false);
     setModalType('');
@@ -42,20 +42,25 @@ const CourseContent = () => {
     setSectionName('');
   };
 
-  const handleShow = (type, moduleIndex = null, module_id = null) => {
+  const handleShow = (type, moduleIndex = null, module_id) => {
     setModalType(type);
     setSelectedModuleIndex(moduleIndex);
     setModuleId(module_id);
     setShow(true);
   };
-
+  const handleShowSection = (type, moduleIndex = null, section_id) => {
+    setModalType(type);
+    setSelectedModuleIndex(moduleIndex);
+    setSelectedSectionId(section_id);
+    setShow(true);
+  };
   const handleAddModule = () => {
     if (newModuleName.trim() !== '') {
       const newModule = {
         id: uuidv4(),
         course_id: course_id,
         title: newModuleName,
-        type: 'module',
+        type: 'module'
       };
       const updatedModules = [...moduleList, newModule];
       setModuleList(updatedModules);
@@ -67,18 +72,17 @@ const CourseContent = () => {
   const handleAddSection = () => {
     if (sectionName.trim() !== '') {
       const newSection = {
-        id: uuidv4(),
-        moduleId: moduleId,  
+        sectionId: uuidv4(),
+        moduleId: moduleId,
         section_name: sectionName,
-        type:"section"
+        type: 'section'
       };
-      console.log('New Section:',newSection)
       const updatedSections = [...sectionList, newSection];
       setSectionList(updatedSections);
       handleClose();
     }
   };
-  
+
   const onDragEnd = (result) => {
     const { source, destination } = result;
 
@@ -149,7 +153,7 @@ const CourseContent = () => {
                               style={{
                                 width: '100%',
                                 border: 'none',
-                                padding: '2px',
+                                padding: '2px'
                               }}
                             />
                           ) : (
@@ -160,21 +164,25 @@ const CourseContent = () => {
                           )}
                         </Accordion.Header>
                         <Accordion.Body>
-                          {sectionList.map((section,sectionIndex)=>(
+                          {sectionList.map((section, sectionIndex) => (
                             <ul className="activity-list" key={sectionIndex}>
-                            <li className="mt-3">
-                              <MdOutlineTopic style={{ cursor: 'pointer', marginTop: '-3px' }} />
-                              <b style={{ cursor: 'pointer' }}>{section?.section_name}</b>
-                            </li>
-                          </ul>
+                              <li className="mt-3">
+                                <MdOutlineTopic
+                                  style={{ cursor: 'pointer', marginTop: '-3px' }}
+                                  onClick={() => handleShowSection('sectionType', index, section.sectionId)}
+                                />
+                                <b
+                                  style={{ cursor: 'pointer' }}
+                                  onClick={() => handleShowSection('sectionType', index, section.sectionId)}
+                                >
+                                  {section?.section_name}
+                                </b>
+                              </li>
+                            </ul>
                           ))}
-                          <Button
-                            variant="outline-primary"
-                            onClick={() => handleShow('addSection', index, module.id)}
-                          >
+                          <Button variant="outline-primary" onClick={() => handleShow('addSection', index, module.id)}>
                             Add Section
                           </Button>
-                          
                         </Accordion.Body>
                       </Accordion.Item>
                     </Card>
@@ -238,6 +246,78 @@ const CourseContent = () => {
           <Modal.Footer>
             <Button variant="primary" onClick={handleAddSection}>
               Save
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      )}
+
+      {/* -----------------------------------Select TYpes-------------------------- */}
+
+      {modalType === 'sectionType' && (
+        <Modal show={show} onHide={handleClose} style={{border:'10px solid black'}} >
+          <Modal.Header closeButton>
+            <Modal.Title style={{fontWeight:'bolder', fontSize:'20px'}} >Select Section Type</Modal.Title>
+          </Modal.Header>
+          <Modal.Body className="grid-example"style={{height:"20vh"}} >
+            <Container>
+              <Row>
+                <Col xs={12} md={4} style={{ justifyContent: 'center', alignItems: 'center', display: 'flex', flexDirection: 'column' }}>
+                  <MdQuiz
+                    onClick={() => {
+                      window.open(`http://localhost:3000/app/course-content/section/quiz?sectionId=${selectedSectionId}`, '_blank');
+                    }}
+                    style={{
+                      color: '#FF5757',
+                      fontSize: '20px',
+                      cursor: 'pointer'
+                    }}
+                  />
+                  <div
+                    onClick={() => {
+                      window.open(`http://localhost:3000/app/course-content/section/quiz?sectionId=${selectedSectionId}`, '_blank');
+                    }}
+                    style={{
+                      color: '#FF5757',
+                      fontSize: '20px',
+                      fontWeight: 'bolder',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    Quiz
+                  </div>
+                </Col>
+
+                <Col xs={12} md={4} style={{ justifyContent: 'center', alignItems: 'center', display: 'flex', flexDirection: 'column' }}>
+                  <BiSolidBookContent
+                    onClick={() => {
+                      window.open(`http://localhost:3000/app/curseContent/section/selectTemplate?sectionId=${selectedSectionId}`, '_blank');
+                    }}
+                    style={{
+                      color: 'gray',
+                      fontSize: '20px',
+                      cursor: 'pointer'
+                    }}
+                  />
+                  <div
+                    onClick={() => {
+                      window.open(`http://localhost:3000/app/curseContent/section/selectTemplate?sectionId=${selectedSectionId}`, '_blank');
+                    }}
+                    style={{
+                      color: 'gray',
+                      fontSize: '20px',
+                      fontWeight: 'bolder',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    Content
+                  </div>
+                </Col>
+              </Row>
+            </Container>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="primary" onClick={handleClose}>
+              Close
             </Button>
           </Modal.Footer>
         </Modal>
