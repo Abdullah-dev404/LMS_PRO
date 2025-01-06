@@ -22,9 +22,7 @@ function ContentEditor() {
   const getData = () => {
  
     const rawContent = convertToRaw(editorState.getCurrentContent());
-    console.log(rawContent)
 
-    
     const contentHTML = stateToHTML(editorState.getCurrentContent());
 
     const data = {
@@ -33,7 +31,6 @@ function ContentEditor() {
       content: contentHTML,  
     };
 
-    console.log(data); 
 }
 
   return (

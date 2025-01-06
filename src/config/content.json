@@ -4,15 +4,22 @@
     "template":{
         "templateOne":{
             "templateId":"",
+            "templateName":"",
             "boxes":{
                 "boxOne":{
-                    "content":""
+                    "content":"",
+                    "boxName":"",
+                    "boxType":""
                 },
                 "boxTwo":{
-                    "content":""
+                    "content":"",
+                    "boxName":"",
+                    "boxType":""
                 },
                 "boxThree":{
-                    "content":""
+                    "content":"",
+                    "boxName":"",
+                    "boxType":""
                 }
             }
         }

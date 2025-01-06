@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { IoIosAddCircle } from 'react-icons/io';
 import { Button, Col, Container, Row } from 'react-bootstrap';
 import Modal from 'react-bootstrap/Modal';
@@ -7,18 +7,24 @@ import { MdOutlineQuiz } from 'react-icons/md';
 import { FaRegImage } from 'react-icons/fa';
 import { CiText } from 'react-icons/ci';
 import { MdOutlineVideoLibrary } from 'react-icons/md';
-import Quiz from 'views/quiz/quiz';
 import SelectImage from 'components/SelectImage/selectImage';
 import TextEditor from 'components/TextEditor/texteditor';
 import SelectVideo from 'components/SelectVedio/selectVideo';
 import './templateOne.css';
+import TemplateStore from '../TemplateStore';
+
 
 function TemplateOne() {
   const [show, setShow] = useState(false);
   const [activityType, setActivityType] = useState('');
   const [boxActivity, setBoxActivity] = useState({});
-
+  const {contentJson,setContentJson} = useContext(TemplateStore)
   const handleClose = () => setShow(false);
+
+  // useEffect(()=>{
+  //   console.log("template one",contentJson)
+  // },[])
+
   const handleShow = (box) => {
     setShow(true);
     setActivityType(box);
@@ -32,16 +38,6 @@ function TemplateOne() {
     handleClose();
   };
 
-  const generateJSON = () => {
-    const jsonData = Object.keys(boxActivity).map((box) => ({
-      box,
-      activityType: boxActivity[box],
-      templateName:'templateOne',
-
-    }));
-    console.log('Generated JSON:', JSON.stringify(jsonData, null, 2));
-    return jsonData;
-  };
 
   const renderContent = (box) => {
     switch (boxActivity[box]) {
@@ -140,12 +136,12 @@ function TemplateOne() {
         </Col>
       </Row>
 
-      <Button
+      {/* <Button
         onClick={generateJSON}
         style={{ marginTop: '20px', backgroundColor: '#43C9A2' }}
       >
         Generate JSON
-      </Button>
+      </Button> */}
 
       {/* ----------------------Modal--------------------- */}
 

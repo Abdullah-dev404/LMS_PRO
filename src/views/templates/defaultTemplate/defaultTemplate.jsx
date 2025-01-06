@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router';
 import { Container, Button } from 'react-bootstrap';
 import { HiTemplate } from 'react-icons/hi';
 import LayoutOne from '../../../assets/images/template/templateOne.png';
@@ -13,12 +14,23 @@ import TemplateOneSS from '../../../assets/images/template/TemplateOneSS.png';
 import TemplateTwoSS from '../../../assets/images/template/TemplateTwoSS.png';
 import TemplateThreeSS from '../../../assets/images/template/TemplateThreeSS.png';
 import TemplateFourSS from '../../../assets/images/template/TemplateFourSS.png';
+import initialContentJson from '../Config/content.json';
+import TemplateStore from '../TemplateStore';
+import CourseContent from 'views/courseContent/CourseContent';
 
 function DefaultTemplate() {
+
+  const useQuery = () => new URLSearchParams(useLocation().search);
+  const query = useQuery();
+  const section_id = query.get('sectionId');
+
   const [showButton, setShowButton] = useState(false);
   const [selectedLayouts, setSelectedLayouts] = useState([]);
   const [hoverButton, setHoverButton] = useState('');
   const [showSaveButton, setShowSaveButton] = useState(false);
+  const [contentJson, setContentJson ] = useState([initialContentJson]);
+  
+
 
   const handleTemplateSelection = (template) => {
     setSelectedLayouts((prevLayouts) => [...prevLayouts, template]);
@@ -26,6 +38,10 @@ function DefaultTemplate() {
     setShowSaveButton(true)
     setHoverButton('');
   };
+
+  const handleAddContent = ()=>{
+
+  }
 
   const renderSelectedLayouts = () => {
     return selectedLayouts.map((layout, index) => {
@@ -58,8 +74,14 @@ function DefaultTemplate() {
         return null;
     }
   };
+ 
+
+  useEffect(()=>{
+    console.log('course content',contentJson)
+  },[contentJson])
 
   return (
+    <TemplateStore.Provider value={{contentJson, setContentJson}}>
     <Container>
       <div>
         <h4 style={{ fontWeight: 'bolder', color: 'gray' }}>Select a Template</h4>
@@ -201,12 +223,13 @@ function DefaultTemplate() {
       )}
       {showSaveButton && (
         <div>
-          <Button variant="primary" style={{ color: 'white', backgroundColor: '#514AC9', outline: 'none', border: 'none' }}>
+          <Button variant="primary" style={{ color: 'white', backgroundColor: '#514AC9', outline: 'none', border: 'none' }} >
             save Template
           </Button>
         </div>
       )}
     </Container>
+    </TemplateStore.Provider>
   );
 }
 
