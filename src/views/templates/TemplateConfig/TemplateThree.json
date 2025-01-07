@@ -1,0 +1,17 @@
+{
+    "templateName":"templateThree",
+    "boxes":{
+        "boxOne":{
+            "type":"",
+            "content":""
+        },
+        "boxTwo":{
+            "type":"",
+            "content":""
+        },
+        "boxThree":{
+            "type":"",
+            "content":""
+        }
+    }
+}

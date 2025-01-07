@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Button, Card, CardBody, CardHeader, Container, Form } from 'react-bootstrap';
 import { PiUploadSimpleBold } from 'react-icons/pi';
 import { useLocation } from 'react-router';
+import TemplateStore from 'views/templates/TemplateStore';
+import { v4 as uuidv4 } from 'uuid';
 
-
-function SelectImage() {
+function SelectImage({box}) {
   const [selectedImage, setSelectedImage] = useState(null);
   const [preview, setPreview] = useState(null);
   const [imageData,SetImageData] = useState([])
+  const { contentJson, setContentJson } = useContext(TemplateStore);
 
   const useQuery = () => new URLSearchParams(useLocation().search)
   const Query = useQuery()
@@ -20,20 +22,35 @@ function SelectImage() {
       setPreview(URL.createObjectURL(file));
     }
   }
-  const generateJson = () => {
+  const saveImageData = () => {
     if (!selectedImage) {
       alert("Please select an image before saving!");
       return;
     }
-    const jsonData = [
-      {
-        imageId: new Date().getTime().toString(), 
+    const imageData ={
+        imageId: uuidv4(), 
         sectionId:section_id,
         imageName: selectedImage.name,
+        imageURL: preview,
         imageSize: `${(selectedImage.size / 1024).toFixed(2)}KB`,
-        uploadTime: new Date().toLocaleTimeString(),
-      },
-    ];
+      }
+    setContentJson((prevContentJson)=>{
+      return{
+        ...prevContentJson,
+        template:{
+          ...prevContentJson?.template,
+          boxes:{
+            ...prevContentJson.template?.boxes,
+            [box]:{
+              ...prevContentJson.template.boxes?.[box],
+              contentType:"image",
+              boxContent:imageData
+            }
+          }
+        }
+      }
+    })
+    
 }
 
   return (
@@ -57,7 +74,7 @@ function SelectImage() {
         </div>
       )}
 
-      <Button className="mt-3" size="sm" onClick={generateJson} style={{backgroundColor:"#0000FF",border:"1px solid #0000FF", color:"white"}} >
+      <Button className="mt-3" size="sm" onClick={()=>saveImageData()} style={{backgroundColor:"#0000FF",border:"1px solid #0000FF", color:"white"}} >
         <PiUploadSimpleBold style={{marginRight:'3px',fontSize:"15px"}}/>
         Uplaod Image
       </Button>

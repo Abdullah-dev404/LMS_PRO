@@ -14,12 +14,10 @@ import TemplateOneSS from '../../../assets/images/template/TemplateOneSS.png';
 import TemplateTwoSS from '../../../assets/images/template/TemplateTwoSS.png';
 import TemplateThreeSS from '../../../assets/images/template/TemplateThreeSS.png';
 import TemplateFourSS from '../../../assets/images/template/TemplateFourSS.png';
-import initialContentJson from '../Config/content.json';
+import initialContentJson from '../TemplateConfig/content.json';
 import TemplateStore from '../TemplateStore';
-import CourseContent from 'views/courseContent/CourseContent';
 
 function DefaultTemplate() {
-
   const useQuery = () => new URLSearchParams(useLocation().search);
   const query = useQuery();
   const section_id = query.get('sectionId');
@@ -28,20 +26,14 @@ function DefaultTemplate() {
   const [selectedLayouts, setSelectedLayouts] = useState([]);
   const [hoverButton, setHoverButton] = useState('');
   const [showSaveButton, setShowSaveButton] = useState(false);
-  const [contentJson, setContentJson ] = useState([initialContentJson]);
-  
-
+  const [contentJson, setContentJson] = useState([initialContentJson]);
 
   const handleTemplateSelection = (template) => {
     setSelectedLayouts((prevLayouts) => [...prevLayouts, template]);
     setShowButton(false);
-    setShowSaveButton(true)
+    setShowSaveButton(true);
     setHoverButton('');
   };
-
-  const handleAddContent = ()=>{
-
-  }
 
   const renderSelectedLayouts = () => {
     return selectedLayouts.map((layout, index) => {
@@ -74,161 +66,160 @@ function DefaultTemplate() {
         return null;
     }
   };
- 
 
-  useEffect(()=>{
-    console.log('course content',contentJson)
-  },[contentJson])
+  // useEffect(()=>{
+  //   console.log('course content',contentJson)
+  // },[contentJson])
 
   return (
-    <TemplateStore.Provider value={{contentJson, setContentJson}}>
-    <Container>
-      <div>
-        <h4 style={{ fontWeight: 'bolder', color: 'gray' }}>Select a Template</h4>
-        <div style={{ marginTop: '20px' }}>{renderSelectedLayouts()}</div>
-        <Button
-          style={{
-            fontWeight: 'bolder',
-            backgroundColor: 'transparent',
-            color: '#514AC9',
-            border: 'none',
-            marginTop: '10px',
-            fontSize: '17px'
-          }}
-          onClick={() => setShowButton(!showButton)}
-        >
-          <HiTemplate className="me-1" style={{ fontSize: '20px' }} />
-          Add template
-        </Button>
-      </div>
-      {showButton && (
-        <div
-          className="TemplateButtons"
-          style={{
-            display: 'flex',
-            marginTop: '10px'
-          }}
-        >
-          <Button
-            variant="outline-primary"
-            style={{
-              fontWeight: 'bolder',
-              backgroundColor: '#ECECFF',
-              color: '#514AC9',
-              border: '1px solid #514AC9',
-              fontSize: '15px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center'
-            }}
-            onMouseEnter={() => {
-              setHoverButton('templateOne');
-            }}
-            // onMouseLeave={() => {
-            //   setHoverButton('');
-            // }}
-            onClick={() => handleTemplateSelection('templateOne')}
-          >
-            <img src={LayoutOne} alt="" style={{ height: '15px', width: '18px', marginRight: '5px' }} />
-            Template One
-          </Button>
-
-          <Button
-            variant="outline-primary"
-            style={{
-              fontWeight: 'bolder',
-              backgroundColor: '#ECECFF',
-              color: '#514AC9',
-              border: '1px solid #514AC9',
-              fontSize: '15px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center'
-            }}
-            onMouseEnter={() => {
-              setHoverButton('templateTwo');
-            }}
-            // onMouseLeave={() => {
-            //   setHoverButton('');
-            // }}
-            onClick={() => handleTemplateSelection('templateTwo')}
-          >
-            <img src={LayoutTwo} alt="" style={{ height: '15px', width: '18px', marginRight: '5px' }} />
-            Template Two
-          </Button>
-
-          <Button
-            variant="outline-primary"
-            style={{
-              fontWeight: 'bolder',
-              backgroundColor: '#ECECFF',
-              color: '#514AC9',
-              border: '1px solid #514AC9',
-              fontSize: '15px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center'
-            }}
-            onMouseEnter={() => {
-              setHoverButton('templateThree');
-            }}
-            // onMouseLeave={() => {
-            //   setHoverButton('');
-            // }}
-            onClick={() => handleTemplateSelection('templateThree')}
-          >
-            <img src={LayoutThree} alt="" style={{ height: '15px', width: '18px', marginRight: '5px' }} />
-            Template Three
-          </Button>
-
-          <Button
-            variant="outline-primary"
-            style={{
-              fontWeight: 'bolder',
-              backgroundColor: '#ECECFF',
-              color: '#514AC9',
-              border: '1px solid #514AC9',
-              fontSize: '15px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center'
-            }}
-            onMouseEnter={() => {
-              setHoverButton('templateFour');
-            }}
-            // onMouseLeave={() => {
-            //   setHoverButton('');
-            // }}
-            onClick={() => handleTemplateSelection('templateFour')}
-          >
-            <img src={LayoutFour} alt="" style={{ height: '15px', width: '18px', marginRight: '5px' }} />
-            Template Four
-          </Button>
-        </div>
-      )}
-      {hoverButton && (
-        <div style={{ marginTop: '10px' }}>
-          <img
-            src={getImages()}
-            alt="Hovered Template Preview"
-            style={{
-              maxHeight: '250px',
-              maxWidth: '120%',
-              border: '1px solid #0000FF',
-              borderRadius: '10px',
-              boxShadow: 'rgba(0, 0, 0, 0.35) 0px 5px 15px'
-            }}
-          />
-        </div>
-      )}
-      {showSaveButton && (
+    <TemplateStore.Provider value={{ contentJson, setContentJson }}>
+      <Container>
         <div>
-          <Button variant="primary" style={{ color: 'white', backgroundColor: '#514AC9', outline: 'none', border: 'none' }} >
-            save Template
+          <h4 style={{ fontWeight: 'bolder', color: 'gray' }}>Select a Template</h4>
+          <div style={{ marginTop: '20px' }}>{renderSelectedLayouts()}</div>
+          <Button
+            style={{
+              fontWeight: 'bolder',
+              backgroundColor: 'transparent',
+              color: '#514AC9',
+              border: 'none',
+              marginTop: '10px',
+              fontSize: '17px'
+            }}
+            onClick={() => setShowButton(!showButton)}
+          >
+            <HiTemplate className="me-1" style={{ fontSize: '20px' }} />
+            Add template
           </Button>
         </div>
-      )}
-    </Container>
+        {showButton && (
+          <div
+            className="TemplateButtons"
+            style={{
+              display: 'flex',
+              marginTop: '10px'
+            }}
+          >
+            <Button
+              variant="outline-primary"
+              style={{
+                fontWeight: 'bolder',
+                backgroundColor: '#ECECFF',
+                color: '#514AC9',
+                border: '1px solid #514AC9',
+                fontSize: '15px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}
+              onMouseEnter={() => {
+                setHoverButton('templateOne');
+              }}
+              // onMouseLeave={() => {
+              //   setHoverButton('');
+              // }}
+              onClick={() => handleTemplateSelection('templateOne')}
+            >
+              <img src={LayoutOne} alt="" style={{ height: '15px', width: '18px', marginRight: '5px' }} />
+              Template One
+            </Button>
+
+            <Button
+              variant="outline-primary"
+              style={{
+                fontWeight: 'bolder',
+                backgroundColor: '#ECECFF',
+                color: '#514AC9',
+                border: '1px solid #514AC9',
+                fontSize: '15px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}
+              onMouseEnter={() => {
+                setHoverButton('templateTwo');
+              }}
+              // onMouseLeave={() => {
+              //   setHoverButton('');
+              // }}
+              onClick={() => handleTemplateSelection('templateTwo')}
+            >
+              <img src={LayoutTwo} alt="" style={{ height: '15px', width: '18px', marginRight: '5px' }} />
+              Template Two
+            </Button>
+
+            <Button
+              variant="outline-primary"
+              style={{
+                fontWeight: 'bolder',
+                backgroundColor: '#ECECFF',
+                color: '#514AC9',
+                border: '1px solid #514AC9',
+                fontSize: '15px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}
+              onMouseEnter={() => {
+                setHoverButton('templateThree');
+              }}
+              // onMouseLeave={() => {
+              //   setHoverButton('');
+              // }}
+              onClick={() => handleTemplateSelection('templateThree')}
+            >
+              <img src={LayoutThree} alt="" style={{ height: '15px', width: '18px', marginRight: '5px' }} />
+              Template Three
+            </Button>
+
+            <Button
+              variant="outline-primary"
+              style={{
+                fontWeight: 'bolder',
+                backgroundColor: '#ECECFF',
+                color: '#514AC9',
+                border: '1px solid #514AC9',
+                fontSize: '15px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}
+              onMouseEnter={() => {
+                setHoverButton('templateFour');
+              }}
+              // onMouseLeave={() => {
+              //   setHoverButton('');
+              // }}
+              onClick={() => handleTemplateSelection('templateFour')}
+            >
+              <img src={LayoutFour} alt="" style={{ height: '15px', width: '18px', marginRight: '5px' }} />
+              Template Four
+            </Button>
+          </div>
+        )}
+        {hoverButton && (
+          <div style={{ marginTop: '10px' }}>
+            <img
+              src={getImages()}
+              alt="Hovered Template Preview"
+              style={{
+                maxHeight: '250px',
+                maxWidth: '120%',
+                border: '1px solid #0000FF',
+                borderRadius: '10px',
+                boxShadow: 'rgba(0, 0, 0, 0.35) 0px 5px 15px'
+              }}
+            />
+          </div>
+        )}
+        {showSaveButton && (
+          <div>
+            <Button variant="primary" style={{ color: 'white', backgroundColor: '#514AC9', outline: 'none', border: 'none' }}>
+              save Template
+            </Button>
+          </div>
+        )}
+      </Container>
     </TemplateStore.Provider>
   );
 }

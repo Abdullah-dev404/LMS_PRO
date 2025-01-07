@@ -1,12 +1,16 @@
-import React, { useEffect, useState } from 'react';
+
+import React, { useContext, useEffect, useState } from 'react';
 import { CardBody, CardFooter, CardTitle, Container, Card, Button, Form } from 'react-bootstrap';
 import { PiUploadSimpleBold } from 'react-icons/pi';
 import { useLocation } from 'react-router';
 import { v4 as uuidv4 } from 'uuid';
-const VideoUploader = () => {
+import TemplateStore from 'views/templates/TemplateStore';
+const VideoUploader = ({box}) => {
   const [selectedVideo, setSelectedVideo] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
   const [uploadStatus, setUploadStatus] = useState('');
+  const {contentJson,setContentJson} = useContext(TemplateStore)
+  
  
   const useQuery = () => new URLSearchParams(useLocation().search)
   const Query = useQuery()
@@ -20,19 +24,35 @@ const VideoUploader = () => {
       alert('Please select a valid video file.');
     }
   };  
-  const generateJson = () => {
+  const saveVideoData = () => {
     if (!selectedVideo) {
       alert("Please select an vedio before saving!");
       return;
     }
-    const jsonData = [
-      {
+    const videoData = {
         vedioId: uuidv4(), 
         sectionId:section_id,
         vedioURL:previewUrl
-      },
-    ];
+      }
+      setContentJson((prevContentJson)=>{
+        return{
+          ...prevContentJson,
+          template:{
+            ...prevContentJson?.template,
+            boxes:{
+              ...prevContentJson.template?.boxes,
+              [box]:{
+                ...prevContentJson.template.boxes?.[box],
+                contentType:'video',
+                boxContent:videoData
+              }
+            }
+          }
+        }
+      })
 }
+
+
 
 
   
@@ -91,7 +111,7 @@ const VideoUploader = () => {
           )}
         </CardBody>
         <CardFooter>
-          <Button className="mt-3" size="sm" style={{ backgroundColor: '#0000FF', border: '1px solid #0000FF', color: 'white' }}>
+          <Button className="mt-3" size="sm" style={{ backgroundColor: '#0000FF', border: '1px solid #0000FF', color: 'white' }} onClick={()=>saveVideoData()}>
             <PiUploadSimpleBold style={{ marginRight: '3px', fontSize: '15px' }} />
             Uplaod video
           </Button>

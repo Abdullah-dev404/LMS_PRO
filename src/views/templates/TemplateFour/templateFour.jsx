@@ -1,19 +1,23 @@
-import React,{useState} from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { Container, Row, Col, Card, Button, Modal } from 'react-bootstrap';
 import { IoIosAddCircle } from 'react-icons/io';
-import { MdOutlineQuiz } from 'react-icons/md';
 import { FaRegImage } from 'react-icons/fa';
 import { CiText } from 'react-icons/ci';
-import Quiz from 'views/quiz/quiz';
 import SelectImage from 'components/SelectImage/selectImage';
 import TextEditor from 'components/TextEditor/texteditor';
 import SelectVideo from 'components/SelectVedio/selectVideo';
 import { MdOutlineVideoLibrary } from 'react-icons/md';
+import TemplateStore from '../TemplateStore';
 
 function TemplateFour() {
-    const [show, setShow] = useState(false);
-  const [activityType, setActivityType] = useState("");
+  const [show, setShow] = useState(false);
+  const [activityType, setActivityType] = useState('');
   const [boxActivity, setBoxActivity] = useState({});
+  const { contentJson, setContentJson } = useContext(TemplateStore);
+
+  // useEffect(() => {
+  //   console.log('template Four:', contentJson);
+  // }, [contentJson]);
 
   const handleClose = () => setShow(false);
   const handleShow = (box) => {
@@ -24,19 +28,36 @@ function TemplateFour() {
   const saveActivityType = (type) => {
     setBoxActivity((prev) => ({
       ...prev,
-      [activityType]: type,
+      [activityType]: type
     }));
+
+    setContentJson((prevContentJson) => {
+      return {
+        ...prevContentJson,
+        template: {
+          ...prevContentJson.template,
+          boxes: {
+            ...prevContentJson.template?.boxes,
+            [activityType]: {
+              ...prevContentJson.template?.boxes?.[activityType],
+              contentType: type
+            }
+          }
+        }
+      };
+    });
+
     handleClose();
   };
 
   const renderContent = (box) => {
     switch (boxActivity[box]) {
-      case "video":
-        return <SelectVideo/>;
-      case "image":
-        return <SelectImage/>
-      case "text":
-        return <TextEditor/>
+      case 'video':
+        return <SelectVideo box={box} />;
+      case 'image':
+        return <SelectImage box={box} />;
+      case 'text':
+        return <TextEditor box={box} />;
       default:
         return (
           <Button
@@ -44,7 +65,7 @@ function TemplateFour() {
             style={{
               backgroundColor: 'transparent',
               border: 'none',
-              color: '#0000FF',
+              color: '#0000FF'
             }}
           >
             <IoIosAddCircle style={{ fontSize: '20px', marginRight: '5px' }} />
@@ -53,6 +74,7 @@ function TemplateFour() {
         );
     }
   };
+
   return (
     <Container>
       <Row>
@@ -60,39 +82,15 @@ function TemplateFour() {
           <Card
             style={{
               height: '50vh',
-              maxHeight:'50vh',
+              maxHeight: '50vh',
               borderRadius: '10px',
-              boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px',
+              boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px'
             }}
           >
-            <Card.Header className='cardHeader'>
-              <b >Box One</b>
+            <Card.Header className="cardHeader">
+              <b>Box One</b>
             </Card.Header>
-            <Card.Body
-             style={{
-              overflowY: 'auto', 
-            }}
-            >{renderContent("box1")}</Card.Body>
-          </Card>
-        </Col>
-
-        <Col sm={12} md={4}>
-        <Card
-            style={{
-              height: '50vh',
-              maxHeight:'50vh',
-              borderRadius: '10px',
-              boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px',
-            }}
-          >
-            <Card.Header className='cardHeader'>
-              <b >Box Two</b>
-            </Card.Header>
-            <Card.Body
-             style={{
-              overflowY: 'auto', 
-            }}
-            >{renderContent("box2")}</Card.Body>
+            <Card.Body style={{ overflowY: 'auto' }}>{renderContent('box1')}</Card.Body>
           </Card>
         </Col>
 
@@ -100,24 +98,36 @@ function TemplateFour() {
           <Card
             style={{
               height: '50vh',
-              maxHeight:'50vh',
+              maxHeight: '50vh',
               borderRadius: '10px',
-              boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px',
+              boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px'
             }}
           >
-            <Card.Header className='cardHeader'>
-              <b >Box Three</b>
+            <Card.Header className="cardHeader">
+              <b>Box Two</b>
             </Card.Header>
-            <Card.Body
-             style={{
-              overflowY: 'auto', 
+            <Card.Body style={{ overflowY: 'auto' }}>{renderContent('box2')}</Card.Body>
+          </Card>
+        </Col>
+
+        <Col sm={12} md={4}>
+          <Card
+            style={{
+              height: '50vh',
+              maxHeight: '50vh',
+              borderRadius: '10px',
+              boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px'
             }}
-            >{renderContent("box3")}</Card.Body>
+          >
+            <Card.Header className="cardHeader">
+              <b>Box Three</b>
+            </Card.Header>
+            <Card.Body style={{ overflowY: 'auto' }}>{renderContent('box3')}</Card.Body>
           </Card>
         </Col>
       </Row>
 
-      {/* --------------------------------Modal-------------------- */}
+      {/* Modal to select content type */}
       <Modal
         show={show}
         onHide={handleClose}
@@ -138,10 +148,7 @@ function TemplateFour() {
                   style={{ fontSize: '30px', color: '#D92165', cursor: 'pointer' }}
                 />
                 <div>
-                  <b
-                    onClick={() => saveActivityType('video')}
-                    style={{ color: '#D92165', fontSize: '15px', cursor: 'pointer' }}
-                  >
+                  <b onClick={() => saveActivityType('video')} style={{ color: '#D92165', fontSize: '15px', cursor: 'pointer' }}>
                     Video
                   </b>
                 </div>
@@ -149,15 +156,9 @@ function TemplateFour() {
             </Col>
             <Col xs={4} md={4} className="d-flex flex-column align-items-center justify-content-center ">
               <div className="d-flex flex-column align-items-center justify-content-center">
-                <FaRegImage
-                  onClick={() => saveActivityType('image')}
-                  style={{ fontSize: '30px', color: '#235990', cursor: 'pointer' }}
-                />
+                <FaRegImage onClick={() => saveActivityType('image')} style={{ fontSize: '30px', color: '#235990', cursor: 'pointer' }} />
                 <div>
-                  <b
-                    onClick={() => saveActivityType('image')}
-                    style={{ color: '#235990', fontSize: '15px', cursor: 'pointer' }}
-                  >
+                  <b onClick={() => saveActivityType('image')} style={{ color: '#235990', fontSize: '15px', cursor: 'pointer' }}>
                     Images
                   </b>
                 </div>
@@ -165,15 +166,9 @@ function TemplateFour() {
             </Col>
             <Col xs={4} md={4} className="d-flex flex-column align-items-center justify-content-center ">
               <div>
-                <CiText
-                  onClick={() => saveActivityType('text')}
-                  style={{ fontSize: '30px', color: '#5A5B96', cursor: 'pointer' }}
-                />
+                <CiText onClick={() => saveActivityType('text')} style={{ fontSize: '30px', color: '#5A5B96', cursor: 'pointer' }} />
                 <div className="d-flex flex-column align-items-center justify-content-center">
-                  <b
-                    onClick={() => saveActivityType('text')}
-                    style={{ color: '#5A5B96', fontSize: '15px', cursor: 'pointer' }}
-                  >
+                  <b onClick={() => saveActivityType('text')} style={{ color: '#5A5B96', fontSize: '15px', cursor: 'pointer' }}>
                     Text
                   </b>
                 </div>

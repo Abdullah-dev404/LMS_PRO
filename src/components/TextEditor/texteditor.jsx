@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { EditorState, convertToRaw } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
@@ -7,10 +7,12 @@ import { Button } from 'react-bootstrap';
 import { stateToHTML } from 'draft-js-export-html';
 import { v4 as uuidv4 } from 'uuid'; 
 import { useLocation } from 'react-router';
-import contentJSON from '../../config/content.json'
-function ContentEditor() {
+import TemplateStore from 'views/templates/TemplateStore';
+
+function ContentEditor({box}) {
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
-  
+  const { contentJson, setContentJson } = useContext(TemplateStore);
+
   const useQuery = () => new URLSearchParams(useLocation().search)
   const Query = useQuery()
   const section_id = Query.get('sectionId')
@@ -19,17 +21,34 @@ function ContentEditor() {
     setEditorState(newEditorState);
   };
 
-  const getData = () => {
- 
-    const rawContent = convertToRaw(editorState.getCurrentContent());
-
-    const contentHTML = stateToHTML(editorState.getCurrentContent());
-
-    const data = {
+  const rawContent = convertToRaw(editorState.getCurrentContent());
+  const contentHTML = stateToHTML(editorState.getCurrentContent());
+  
+  const saveTextData = ()=>{
+    const textData = {
       textId: uuidv4(),  
       sectionId:section_id,
       content: contentHTML,  
     };
+
+    setContentJson((prevContentJson)=>{
+      return{
+        ...prevContentJson,
+        template:{
+            ...prevContentJson?.template,
+            boxes:{
+              ...prevContentJson.template?.boxes,
+              [box]:{
+                ...prevContentJson.template.boxes?.[box],
+                contentType:'text',
+                boxContent:textData
+              }
+            }
+        }
+      }
+    })
+
+  
 
 }
 
@@ -50,7 +69,7 @@ function ContentEditor() {
         wrapperClassName="wrapperClassName"
         editorClassName="editorClassName"
       />
-      <Button className="mt-3 save-content" onClick={getData}>
+      <Button className="mt-3 save-content" onClick={saveTextData}>
         Save Content
       </Button>
     </div>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { IoIosAddCircle } from 'react-icons/io';
 import { Button, Col, Container, Row } from 'react-bootstrap';
 import Modal from 'react-bootstrap/Modal';
@@ -10,12 +10,18 @@ import Quiz from 'views/quiz/quiz';
 import SelectImage from 'components/SelectImage/selectImage';
 import TextEditor from 'components/TextEditor/texteditor';
 import SelectVideo from 'components/SelectVedio/selectVideo';
-import './templateTwo.css'
+import TemplateStore from '../TemplateStore';
+import './templateTwo.css';
 
 function TemplateTwo() {
   const [show, setShow] = useState(false);
-  const [activityType, setActivityType] = useState("");
+  const [activityType, setActivityType] = useState('');
   const [boxActivity, setBoxActivity] = useState({});
+  const { contentJson, setContentJson } = useContext(TemplateStore);
+
+  // useEffect(()=>{
+  //   console.log("template Two:",contentJson)
+  // },[contentJson])
 
   const handleClose = () => setShow(false);
   const handleShow = (box) => {
@@ -26,19 +32,36 @@ function TemplateTwo() {
   const saveActivityType = (type) => {
     setBoxActivity((prev) => ({
       ...prev,
-      [activityType]: type,
+      [activityType]: type
     }));
+
+    setContentJson((prevContentJson) => {
+      return {
+        ...prevContentJson,
+        template: {
+          ...prevContentJson?.template,
+          boxes: {
+            ...prevContentJson.template?.boxes,
+            [activityType]: {
+              ...prevContentJson.template?.boxes?.[activityType],
+              contentType: type
+            }
+          }
+        }
+      };
+    });
+
     handleClose();
   };
 
   const renderContent = (box) => {
     switch (boxActivity[box]) {
-      case "video":
-        return <SelectVideo />;
-      case "image":
-        return <SelectImage/>
-      case "text":
-        return <TextEditor/>
+      case 'video':
+        return <SelectVideo box={box} />;
+      case 'image':
+        return <SelectImage box={box} />;
+      case 'text':
+        return <TextEditor box={box} />;
       default:
         return (
           <Button
@@ -46,7 +69,7 @@ function TemplateTwo() {
             style={{
               backgroundColor: 'transparent',
               border: 'none',
-              color: '#0000FF',
+              color: '#0000FF'
             }}
           >
             <IoIosAddCircle style={{ fontSize: '20px', marginRight: '5px' }} />
@@ -60,51 +83,50 @@ function TemplateTwo() {
     <Container>
       <Row>
         <Col md={6} sm={12}>
-            <Card md={12}
-              style={{
-                borderRadius: '10px',
-                boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px',
-                height:'32vh',
-                maxHeight:'32vh'
-              }}
-            >
-              <Card.Header>
-                <b style={{ color: '#3F4D67', fontSize: '15px' }}>Box Two</b>
-              </Card.Header>
-              <Card.Body style={{overflow:'auto'}}>{renderContent("box2")}</Card.Body>
-            </Card>
-   
+          <Card
+            md={12}
+            style={{
+              borderRadius: '10px',
+              boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px',
+              height: '32vh',
+              maxHeight: '32vh'
+            }}
+          >
+            <Card.Header>
+              <b style={{ color: '#3F4D67', fontSize: '15px' }}>Box Two</b>
+            </Card.Header>
+            <Card.Body style={{ overflow: 'auto' }}>{renderContent('box2')}</Card.Body>
+          </Card>
 
-            <Card md={12}
-              style={{
-                borderRadius: '10px',
-                boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px',
-                height:'32vh',
-                maxHeight:'32vh'
-              }}
-            >
-              <Card.Header>
-                <b style={{ color: '#3F4D67', fontSize: '15px' }}>Box Three</b>
-              </Card.Header>
-              <Card.Body style={{overflow:'auto'}}>{renderContent("box3")}</Card.Body>
-            </Card>
-
+          <Card
+            md={12}
+            style={{
+              borderRadius: '10px',
+              boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px',
+              height: '32vh',
+              maxHeight: '32vh'
+            }}
+          >
+            <Card.Header>
+              <b style={{ color: '#3F4D67', fontSize: '15px' }}>Box Three</b>
+            </Card.Header>
+            <Card.Body style={{ overflow: 'auto' }}>{renderContent('box3')}</Card.Body>
+          </Card>
         </Col>
-
 
         <Col md={6} sm={12}>
           <Card
             style={{
               height: '70vh',
-              maxHeight:'70vh',
+              maxHeight: '70vh',
               borderRadius: '10px',
-              boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px',
+              boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px'
             }}
           >
             <Card.Header>
               <b style={{ color: '#3F4D67', fontSize: '15px' }}>Box One</b>
             </Card.Header>
-            <Card.Body style={{overflow:'auto'}} >{renderContent("box1")}</Card.Body>
+            <Card.Body style={{ overflow: 'auto' }}>{renderContent('box1')}</Card.Body>
           </Card>
         </Col>
       </Row>
@@ -131,10 +153,7 @@ function TemplateTwo() {
                   style={{ fontSize: '30px', color: '#D92165', cursor: 'pointer' }}
                 />
                 <div>
-                  <b
-                    onClick={() => saveActivityType('video')}
-                    style={{ color: '#D92165', fontSize: '15px', cursor: 'pointer' }}
-                  >
+                  <b onClick={() => saveActivityType('video')} style={{ color: '#D92165', fontSize: '15px', cursor: 'pointer' }}>
                     Video
                   </b>
                 </div>
@@ -142,15 +161,9 @@ function TemplateTwo() {
             </Col>
             <Col xs={4} md={4} className="d-flex flex-column align-items-center justify-content-center ">
               <div className="d-flex flex-column align-items-center justify-content-center">
-                <FaRegImage
-                  onClick={() => saveActivityType('image')}
-                  style={{ fontSize: '30px', color: '#235990', cursor: 'pointer' }}
-                />
+                <FaRegImage onClick={() => saveActivityType('image')} style={{ fontSize: '30px', color: '#235990', cursor: 'pointer' }} />
                 <div>
-                  <b
-                    onClick={() => saveActivityType('image')}
-                    style={{ color: '#235990', fontSize: '15px', cursor: 'pointer' }}
-                  >
+                  <b onClick={() => saveActivityType('image')} style={{ color: '#235990', fontSize: '15px', cursor: 'pointer' }}>
                     Images
                   </b>
                 </div>
@@ -158,15 +171,9 @@ function TemplateTwo() {
             </Col>
             <Col xs={4} md={4} className="d-flex flex-column align-items-center justify-content-center ">
               <div>
-                <CiText
-                  onClick={() => saveActivityType('text')}
-                  style={{ fontSize: '30px', color: '#5A5B96', cursor: 'pointer' }}
-                />
+                <CiText onClick={() => saveActivityType('text')} style={{ fontSize: '30px', color: '#5A5B96', cursor: 'pointer' }} />
                 <div className="d-flex flex-column align-items-center justify-content-center">
-                  <b
-                    onClick={() => saveActivityType('text')}
-                    style={{ color: '#5A5B96', fontSize: '15px', cursor: 'pointer' }}
-                  >
+                  <b onClick={() => saveActivityType('text')} style={{ color: '#5A5B96', fontSize: '15px', cursor: 'pointer' }}>
                     Text
                   </b>
                 </div>

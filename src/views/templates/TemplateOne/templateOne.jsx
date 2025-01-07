@@ -13,17 +13,17 @@ import SelectVideo from 'components/SelectVedio/selectVideo';
 import './templateOne.css';
 import TemplateStore from '../TemplateStore';
 
-
 function TemplateOne() {
   const [show, setShow] = useState(false);
   const [activityType, setActivityType] = useState('');
   const [boxActivity, setBoxActivity] = useState({});
-  const {contentJson,setContentJson} = useContext(TemplateStore)
+  const { contentJson, setContentJson } = useContext(TemplateStore);
+
   const handleClose = () => setShow(false);
 
-  // useEffect(()=>{
-  //   console.log("template one",contentJson)
-  // },[])
+  // useEffect(() => {
+  //   console.log('Template one', contentJson);
+  // }, [contentJson]);
 
   const handleShow = (box) => {
     setShow(true);
@@ -31,22 +31,43 @@ function TemplateOne() {
   };
 
   const saveActivityType = (type) => {
+   
     setBoxActivity((prev) => ({
       ...prev,
       [activityType]: type
     }));
-    handleClose();
+  
+    
+    setContentJson((prevContentJson) => {
+      const updatedContentJson = {
+        ...prevContentJson,
+        template: {
+          ...prevContentJson.template,
+          templateName: 'templateOne',
+          boxes: {
+            ...prevContentJson.template?.boxes, 
+            [activityType]: {
+              ...prevContentJson.template?.boxes?.[activityType],
+              contentType: type
+            }
+          }
+        }
+      };
+      return updatedContentJson;
+    });
+  
+    handleClose(); 
   };
-
+  
 
   const renderContent = (box) => {
     switch (boxActivity[box]) {
       case 'video':
-        return <SelectVideo />;
+        return <SelectVideo box={box} />;
       case 'image':
-        return <SelectImage />;
+        return <SelectImage box={box} />;
       case 'text':
-        return <TextEditor />;
+        return <TextEditor box={box}/>;
       default:
         return (
           <Button
@@ -136,12 +157,6 @@ function TemplateOne() {
         </Col>
       </Row>
 
-      {/* <Button
-        onClick={generateJSON}
-        style={{ marginTop: '20px', backgroundColor: '#43C9A2' }}
-      >
-        Generate JSON
-      </Button> */}
 
       {/* ----------------------Modal--------------------- */}
 
@@ -173,7 +188,10 @@ function TemplateOne() {
             </Col>
             <Col xs={4} md={4} className="d-flex flex-column align-items-center justify-content-center ">
               <div className="d-flex flex-column align-items-center justify-content-center">
-                <FaRegImage onClick={() => saveActivityType('image')} style={{ fontSize: '30px', color: '#235990', cursor: 'pointer' }} />
+                <FaRegImage
+                  onClick={() => saveActivityType('image')}
+                  style={{ fontSize: '30px', color: '#235990', cursor: 'pointer' }}
+                />
                 <div>
                   <b onClick={() => saveActivityType('image')} style={{ color: '#235990', fontSize: '15px', cursor: 'pointer' }}>
                     Images
@@ -183,7 +201,10 @@ function TemplateOne() {
             </Col>
             <Col xs={4} md={4} className="d-flex flex-column align-items-center justify-content-center ">
               <div>
-                <CiText onClick={() => saveActivityType('text')} style={{ fontSize: '30px', color: '#5A5B96', cursor: 'pointer' }} />
+                <CiText
+                  onClick={() => saveActivityType('text')}
+                  style={{ fontSize: '30px', color: '#5A5B96', cursor: 'pointer' }}
+                />
                 <div className="d-flex flex-column align-items-center justify-content-center">
                   <b onClick={() => saveActivityType('text')} style={{ color: '#5A5B96', fontSize: '15px', cursor: 'pointer' }}>
                     Text
